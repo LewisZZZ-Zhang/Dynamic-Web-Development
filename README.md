@@ -1,3 +1,3 @@
 # Dynamic-Web-Development
 
-[Project 1 Gallery](project1/index.html)
+[Project 1](project1/index.html)
