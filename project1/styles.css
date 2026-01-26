@@ -1,0 +1,107 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', 'Helvetica Neue', Arial, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+    background: #181a1b;
+    color: #f3f3f3;
+}
+
+/* Topbar */
+.topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background: rgba(35, 39, 46, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1.2rem;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.13);
+    backdrop-filter: blur(4px);
+    z-index: 100;
+}
+
+.site-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.navbar {
+    display: flex;
+    gap: 2rem;
+}
+
+.navbar a {
+    color: #f3f3f3;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.2s;
+}
+
+.navbar a:hover {
+    color: #4ea1f7;
+}
+
+/* Main Content */
+body {
+    padding-top: 60px;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    padding: 2rem;
+}
+
+/* Section Layout */
+.section {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+
+.section.reverse {
+    flex-direction: row-reverse;
+}
+
+/* Text Content */
+.text-content {
+    flex: 1;
+}
+
+.text-content h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.text-content p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #b0b8c1;
+}
+
+/* Carousel */
+.carousel {
+    position: relative;
+    width: 50%;
+    height: 400px;
+    overflow: hidden;
+    background: #23272e;
+    flex-shrink: 0;
+}
+
+.carousel-img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: none;
+}

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lewis & Interests</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="topbar">
+        <div class="site-title">My Website</div>
+        <nav class="navbar">
+            <p>Links to:</p>
+            <a href="index.html">Home</a>
+            <a href="https://lewiszzz-zhang.github.io/">Github</a>
+            <a href="https://www.pixiv.net/users/67640367">Pixiv</a>
+            <!-- <a href="#about">About</a>
+            <a href="#contact">Contact</a> -->
+        </nav>
+    </header>
+
+    <main>
+        <!-- Section 1: Image Left, Text Right -->
+        <section class="section">
+            <div class="carousel">
+                <img src="assets/RX0_0.JPG" alt="Banner 1" class="carousel-img">
+                <img src="assets/RX78_0.jpg" alt="Banner 2" class="carousel-img">
+            </div>
+            
+            <div class="text-content">
+                <h2>About Me</h2>
+                <p>Hi, my name is Lewis Zhang. I'm from Shanghai, China. I'm currently a junior undergraduate at NYU Shanghai. I major in Computer Science and minor in IMA. This year, I'm studying away in New York.</p>
+            </div>
+        </section>
+
+        <!-- Section 2: Text Left, Image Right -->
+        <section class="section">
+            <div class="text-content">
+                <h2>My Interests</h2>
+                <p>I'm passionate about web development, design, and creating interactive experiences. In my free time, I enjoy photography and building Gundam models.</p>
+            </div>
+            
+            <div class="carousel">
+                <img src="assets/fx_0.JPG" alt="Interest 1" class="carousel-img">
+                <img src="assets/hiv_0.jpg" alt="Interest 2" class="carousel-img">
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Initialize an independent carousel for each .carousel container
+        document.querySelectorAll('.carousel').forEach(carousel => {
+            const imgs = carousel.querySelectorAll('.carousel-img');
+            if (!imgs.length) return;
+
+            let idx = 0;
+
+            const show = nextIdx => {
+                imgs.forEach(img => (img.style.display = 'none'));
+                imgs[nextIdx].style.display = 'block';
+            };
+
+            show(idx);
+            setInterval(() => {
+                idx = (idx + 1) % imgs.length;
+                show(idx);
+            }, 3000);
+        });
+    </script>
+</body>
+</html>
