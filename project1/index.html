@@ -26,7 +26,6 @@
         <section class="section">
             <a href="gallery/gallery.html" class="carousel">
                 <img src="assets/RX0_0.jpg" alt="Banner 1" class="carousel-img">
-                <img src="assets/RX78_0.jpg" alt="Banner 2" class="carousel-img">
             </a>
             
             <div class="text-content">
@@ -58,16 +57,15 @@
             </div>
             
             <a href="gallery/gallery.html" class="carousel">
-                <img src="assets/fx_0.jpg" alt="Interest 1" class="carousel-img">
-                <img src="assets/hiv_0.jpg" alt="Interest 2" class="carousel-img">
+                <img src="assets/RX78_0.jpg" alt="Interest 1" class="carousel-img">
             </a>
         </section>
 
         <!-- Section 3: Text Left, Video Right -->
         <section class="section">
-            <div class="video-box">
+            <a href="gallery/Aerial.html" class="video-box">
                 <video src="assets/fl_0.mp4" autoplay loop muted playsinline></video>
-            </div>
+            </a>
             <div class="text-content">
                 <h2>To explore</h2>
                 <p>Check out my <a href="gallery/gallery.html">gallery</a> for more of my gunpla work.</p>
@@ -76,25 +74,5 @@
         </section>
     </main>
 
-    <script>
-        // Initialize an independent carousel for each .carousel container
-        document.querySelectorAll('.carousel').forEach(carousel => {
-            const imgs = carousel.querySelectorAll('.carousel-img');
-            if (!imgs.length) return;
-
-            let idx = 0;
-
-            const show = nextIdx => {
-                imgs.forEach(img => (img.style.display = 'none'));
-                imgs[nextIdx].style.display = 'block';
-            };
-
-            show(idx);
-            setInterval(() => {
-                idx = (idx + 1) % imgs.length;
-                show(idx);
-            }, 3000);
-        });
-    </script>
 </body>
 </html>

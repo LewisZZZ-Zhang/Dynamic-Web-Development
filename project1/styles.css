@@ -68,10 +68,6 @@ main {
     align-items: center;
 }
 
-.section.reverse {
-    flex-direction: row-reverse;
-}
-
 /* Text Content */
 .text-content {
     flex: 1;
@@ -111,7 +107,7 @@ main {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    display: none;
+    display: block;
 }
 
 /* Video Box */
