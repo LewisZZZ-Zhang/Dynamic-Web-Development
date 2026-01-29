@@ -1,3 +1,0 @@
-Assignment
-Make a small website about a passion or interest of yours to introduce yourself to the class next week. This is an opportunity to not only experiment with the affordances of HTML/CSS (and minimal JS), but explore the browser as a medium of self-expression. Start by looking at the physical spaces you inhabit and where you find creativity. Think about the structure of HTML: how can hyperlinks transport you space to space? How does that work with your own creative flow? a. We will host these websites live on our servers next week, but for now it is ok they are hosted on Github Pages. b. Submit in our class Google Form
-Ensure you have set up your digital ocean account.
