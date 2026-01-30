@@ -10,7 +10,6 @@ body {
     color: #f3f3f3;
 }
 
-/* Topbar */
 .topbar {
     position: fixed;
     top: 0;
@@ -49,7 +48,6 @@ body {
     color: #4ea1f7;
 }
 
-/* Main Content */
 body {
     padding-top: 60px;
 }
@@ -61,14 +59,12 @@ main {
     padding: 2rem;
 }
 
-/* Section Layout */
 .section {
     display: flex;
     gap: 2rem;
     align-items: center;
 }
 
-/* Text Content */
 .text-content {
     flex: 1;
 }
@@ -89,7 +85,6 @@ main {
     text-decoration: none;
 }
 
-/* Carousel */
 .carousel {
     position: relative;
     width: 50%;
@@ -110,7 +105,6 @@ main {
     display: block;
 }
 
-/* Video Box */
 .video-box {
     width: 50%;
     height: 45vw;
@@ -128,7 +122,6 @@ main {
     display: block;
 }
 
-/* Gallery */
 .gallery-page {
     display: flex;
     flex-direction: column;
@@ -167,7 +160,6 @@ main {
     display: block;
 }
 
-/* CTA Section */
 .cta-section {
     text-align: center;
     padding: 2rem;
@@ -189,7 +181,6 @@ main {
     text-decoration: none;
 }
 
-/* Detail Page */
 .detail-page {
     padding: 2rem;
 }
