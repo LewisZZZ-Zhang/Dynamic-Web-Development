@@ -1,0 +1,12 @@
+#important{
+    color: white;
+    background-color: green;
+}
+
+.show{
+    display: block;
+}
+
+.hide{
+    display: none;
+}
