@@ -38,7 +38,7 @@ window.onload = async () => {
 
 
     let params = new URLSearchParams({
-        apikey: "1c2eb4cd",
+        apikey: " ",
         s: "Transformers",
         type: "movie",
     });
