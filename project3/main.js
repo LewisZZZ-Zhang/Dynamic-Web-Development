@@ -48,7 +48,7 @@ const slots = [
 ];
 
 const cache = new Map();
-let currentYear = Math.min(MAX_YEAR, new Date().getFullYear());
+let currentYear = 1900;
 
 const setStatus = (message) => {
     statusEl.textContent = message || "";
@@ -66,7 +66,7 @@ const setControls = () => {
 
 const renderLoading = (slot, year) => {
     slot.yearEl.textContent = year;
-    slot.emptyEl.textContent = "加载中...";
+    slot.emptyEl.textContent = "Loading...";
     slot.emptyEl.hidden = false;
     slot.imgEl.hidden = true;
     slot.titleEl.textContent = "";
@@ -79,7 +79,7 @@ const renderArtwork = (slot, year, artwork, message) => {
     slot.yearEl.textContent = year;
 
     if (!artwork) {
-        slot.emptyEl.textContent = message || "没有可用作品";
+        slot.emptyEl.textContent = message || "No artwork available";
         slot.emptyEl.hidden = false;
         slot.imgEl.hidden = true;
         slot.titleEl.textContent = "";
@@ -95,13 +95,13 @@ const renderArtwork = (slot, year, artwork, message) => {
     slot.imgEl.hidden = false;
     slot.imgEl.onerror = function () {
         this.hidden = true;
-        slot.emptyEl.textContent = "图片暂时无法加载";
+        slot.emptyEl.textContent = "Image failed to load";
         slot.emptyEl.hidden = false;
     };
 
     slot.emptyEl.hidden = true;
-    slot.titleEl.textContent = artwork.title || "无标题";
-    slot.artistEl.textContent = artwork.artist_display || "艺术家未知";
+    slot.titleEl.textContent = artwork.title || "Untitled";
+    slot.artistEl.textContent = artwork.artist_display || "Unknown artist";
     slot.dateEl.textContent = artwork.date_display || "";
     slot.linkEl.href = `https://www.artic.edu/artworks/${artwork.id}`;
     slot.linkEl.hidden = false;
@@ -129,7 +129,7 @@ const fetchRandomArtworkByYear = async (year) => {
     });
 
     if (!countResponse.ok) {
-        throw new Error("获取作品总数失败");
+        throw new Error("Failed to load artwork count");
     }
 
     const countData = await countResponse.json();
@@ -169,7 +169,7 @@ const fetchRandomArtworkByYear = async (year) => {
     });
 
     if (!artworkResponse.ok) {
-        throw new Error("获取作品失败");
+        throw new Error("Failed to load artwork");
     }
 
     const data = await artworkResponse.json();
@@ -191,7 +191,7 @@ const updateWindow = async () => {
         entries.map(async (entry) => {
             const { year } = entry;
             if (year < MIN_YEAR || year > MAX_YEAR) {
-                return { ...entry, artwork: null, message: "超出范围" };
+                return { ...entry, artwork: null, message: "Out of range" };
             }
 
             if (cache.has(year)) {
@@ -225,7 +225,7 @@ const rerollCurrent = async () => {
     try {
         const artwork = await fetchRandomArtworkByYear(currentYear);
         cache.set(currentYear, artwork);
-        renderArtwork(currentSlot, currentYear, artwork, "没有可用作品");
+        renderArtwork(currentSlot, currentYear, artwork, "No artwork available");
     } catch (error) {
         cache.set(currentYear, null);
         renderArtwork(currentSlot, currentYear, null, error.message);
@@ -245,11 +245,11 @@ const jumpToYear = () => {
     const value = yearInput.value.trim();
     const year = Number(value);
     if (!value || Number.isNaN(year)) {
-        setStatus("请输入有效年份");
+        setStatus("Enter a valid year");
         return;
     }
     if (year < MIN_YEAR || year > MAX_YEAR) {
-        setStatus(`请输入有效的年份 (${MIN_YEAR}-${MAX_YEAR})`);
+        setStatus(`Enter a year between ${MIN_YEAR}-${MAX_YEAR}`);
         return;
     }
     currentYear = year;

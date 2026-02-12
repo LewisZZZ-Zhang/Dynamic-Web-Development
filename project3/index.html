@@ -3,35 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>三年艺术画廊</title>
+    <title>Three-Year Gallery</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
         <header class="header">
-            <h1>芝加哥艺术博物馆</h1>
-            <p class="subtitle">上一年 / 当前年 / 下一年</p>
+            <h1>Art Institute of Chicago</h1>
+            <p class="subtitle">Three-year timeline</p>
         </header>
 
-        <div class="controls">
-            <button id="prevYear" class="nav-btn" aria-label="上一年">←</button>
-            <div class="year-display">
-                <span id="currentYear"></span>
+        <div class="timeline">
+            <button id="prevYear" class="nav-btn" aria-label="Previous year">←</button>
+
+            <div class="timeline-track">
+                <div class="timeline-line"></div>
+                <div class="timeline-node" data-slot="prev">
+                    <div class="dot"></div>
+                    <div class="label" id="yearPrev"></div>
+                </div>
+                <div class="timeline-node active" data-slot="current">
+                    <div class="dot"></div>
+                    <div class="label" id="yearCurrent"></div>
+                </div>
+                <div class="timeline-node" data-slot="next">
+                    <div class="dot"></div>
+                    <div class="label" id="yearNext"></div>
+                </div>
             </div>
-            <button id="rerollCurrent" class="nav-btn nav-btn-small" aria-label="重新随机当前年">⟳</button>
-            <button id="nextYear" class="nav-btn" aria-label="下一年">→</button>
+
+            <div class="timeline-actions">
+                <button id="rerollCurrent" class="nav-btn nav-btn-small" aria-label="Reroll current year">⟳</button>
+                <button id="nextYear" class="nav-btn" aria-label="Next year">→</button>
+            </div>
         </div>
 
         <div class="jump">
-            <input type="number" id="yearInput" placeholder="输入年份 (例如: 1889)" min="1" max="2024">
-            <button id="jumpBtn">跳转</button>
+            <input type="number" id="yearInput" placeholder="Jump to a year (e.g. 1889)" min="1" max="2024">
+            <button id="jumpBtn">Go</button>
+            <span id="currentYear" class="sr-only"></span>
         </div>
 
         <p id="status" class="status"></p>
 
         <section class="gallery">
             <article class="card" data-slot="prev">
-                <div class="card-year" id="yearPrev"></div>
+                <div class="card-year">Previous</div>
                 <div class="card-media">
                     <img id="imgPrev" src="" alt="">
                     <div id="emptyPrev" class="card-empty"></div>
@@ -40,12 +57,12 @@
                     <h2 id="titlePrev"></h2>
                     <p id="artistPrev" class="muted"></p>
                     <p id="datePrev" class="muted"></p>
-                    <a id="linkPrev" href="" target="_blank" class="card-link">查看详情 →</a>
+                    <a id="linkPrev" href="" target="_blank" class="card-link">View details →</a>
                 </div>
             </article>
 
             <article class="card" data-slot="current">
-                <div class="card-year" id="yearCurrent"></div>
+                <div class="card-year">Current</div>
                 <div class="card-media">
                     <img id="imgCurrent" src="" alt="">
                     <div id="emptyCurrent" class="card-empty"></div>
@@ -54,12 +71,12 @@
                     <h2 id="titleCurrent"></h2>
                     <p id="artistCurrent" class="muted"></p>
                     <p id="dateCurrent" class="muted"></p>
-                    <a id="linkCurrent" href="" target="_blank" class="card-link">查看详情 →</a>
+                    <a id="linkCurrent" href="" target="_blank" class="card-link">View details →</a>
                 </div>
             </article>
 
             <article class="card" data-slot="next">
-                <div class="card-year" id="yearNext"></div>
+                <div class="card-year">Next</div>
                 <div class="card-media">
                     <img id="imgNext" src="" alt="">
                     <div id="emptyNext" class="card-empty"></div>
@@ -68,7 +85,7 @@
                     <h2 id="titleNext"></h2>
                     <p id="artistNext" class="muted"></p>
                     <p id="dateNext" class="muted"></p>
-                    <a id="linkNext" href="" target="_blank" class="card-link">查看详情 →</a>
+                    <a id="linkNext" href="" target="_blank" class="card-link">View details →</a>
                 </div>
             </article>
         </section>
