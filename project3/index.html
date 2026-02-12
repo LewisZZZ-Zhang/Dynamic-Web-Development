@@ -1,13 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project 3</title>
+    <title>A Random Artwork</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Project 3</h1>
+    <div class="container">
+        <h1>芝加哥艺术博物馆</h1>
+        <p class="subtitle">按年份随机浏览艺术品</p>
+        
+        <div class="search-box">
+            <input type="number" id="yearInput" placeholder="输入年份 (例如: 1889)" min="1" max="2024">
+            <button id="searchBtn">搜索</button>
+        </div>
+        
+        <div id="loading" class="loading hidden">加载中...</div>
+        <div id="error" class="error hidden"></div>
+        
+        <div id="artworkContainer" class="artwork-container hidden">
+            <div class="artwork-image">
+                <img id="artworkImg" src="" alt="">
+            </div>
+            <div class="artwork-info">
+                <h2 id="artworkTitle"></h2>
+                <p class="artist" id="artworkArtist"></p>
+                <p class="date" id="artworkDate"></p>
+                <p class="medium" id="artworkMedium"></p>
+                <p class="dimensions" id="artworkDimensions"></p>
+                <a id="artworkLink" href="" target="_blank" class="view-more">在博物馆网站查看详情 →</a>
+            </div>
+        </div>
+    </div>
     
     <script src="main.js"></script>
 </body>
