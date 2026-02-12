@@ -3,35 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Random Artwork</title>
+    <title>三年艺术画廊</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <h1>芝加哥艺术博物馆</h1>
-        <p class="subtitle">按年份随机浏览艺术品</p>
-        
-        <div class="search-box">
+        <header class="header">
+            <h1>芝加哥艺术博物馆</h1>
+            <p class="subtitle">上一年 / 当前年 / 下一年</p>
+        </header>
+
+        <div class="controls">
+            <button id="prevYear" class="nav-btn" aria-label="上一年">←</button>
+            <div class="year-display">
+                <span id="currentYear"></span>
+            </div>
+            <button id="rerollCurrent" class="nav-btn nav-btn-small" aria-label="重新随机当前年">⟳</button>
+            <button id="nextYear" class="nav-btn" aria-label="下一年">→</button>
+        </div>
+
+        <div class="jump">
             <input type="number" id="yearInput" placeholder="输入年份 (例如: 1889)" min="1" max="2024">
-            <button id="searchBtn">搜索</button>
+            <button id="jumpBtn">跳转</button>
         </div>
-        
-        <div id="loading" class="loading hidden">加载中...</div>
-        <div id="error" class="error hidden"></div>
-        
-        <div id="artworkContainer" class="artwork-container hidden">
-            <div class="artwork-image">
-                <img id="artworkImg" src="" alt="">
-            </div>
-            <div class="artwork-info">
-                <h2 id="artworkTitle"></h2>
-                <p class="artist" id="artworkArtist"></p>
-                <p class="date" id="artworkDate"></p>
-                <p class="medium" id="artworkMedium"></p>
-                <p class="dimensions" id="artworkDimensions"></p>
-                <a id="artworkLink" href="" target="_blank" class="view-more">在博物馆网站查看详情 →</a>
-            </div>
-        </div>
+
+        <p id="status" class="status"></p>
+
+        <section class="gallery">
+            <article class="card" data-slot="prev">
+                <div class="card-year" id="yearPrev"></div>
+                <div class="card-media">
+                    <img id="imgPrev" src="" alt="">
+                    <div id="emptyPrev" class="card-empty"></div>
+                </div>
+                <div class="card-info">
+                    <h2 id="titlePrev"></h2>
+                    <p id="artistPrev" class="muted"></p>
+                    <p id="datePrev" class="muted"></p>
+                    <a id="linkPrev" href="" target="_blank" class="card-link">查看详情 →</a>
+                </div>
+            </article>
+
+            <article class="card" data-slot="current">
+                <div class="card-year" id="yearCurrent"></div>
+                <div class="card-media">
+                    <img id="imgCurrent" src="" alt="">
+                    <div id="emptyCurrent" class="card-empty"></div>
+                </div>
+                <div class="card-info">
+                    <h2 id="titleCurrent"></h2>
+                    <p id="artistCurrent" class="muted"></p>
+                    <p id="dateCurrent" class="muted"></p>
+                    <a id="linkCurrent" href="" target="_blank" class="card-link">查看详情 →</a>
+                </div>
+            </article>
+
+            <article class="card" data-slot="next">
+                <div class="card-year" id="yearNext"></div>
+                <div class="card-media">
+                    <img id="imgNext" src="" alt="">
+                    <div id="emptyNext" class="card-empty"></div>
+                </div>
+                <div class="card-info">
+                    <h2 id="titleNext"></h2>
+                    <p id="artistNext" class="muted"></p>
+                    <p id="dateNext" class="muted"></p>
+                    <a id="linkNext" href="" target="_blank" class="card-link">查看详情 →</a>
+                </div>
+            </article>
+        </section>
     </div>
     
     <script src="main.js"></script>

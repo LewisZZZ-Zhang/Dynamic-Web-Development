@@ -1,0 +1,11 @@
+on github
+OA_API_PUBLISHABLE_KEY=fbc3783a240c5207056cd0c30cd73a8a444c3333ac1d43e64ef4b78b7bdb678c
+OA_API_BASE_URL=https://openart.work/api/v1
+
+localhost:
+OA_API_PUBLISHABLE_KEY=cd0cd1c54e9d92c4a9f6d1ecf71f59ba7c4ae84f56d6b7564d0bf1ffc9e89acd
+OA_API_BASE_URL=https://openart.work/api/v1
+
+127.0.0.1:
+OA_API_PUBLISHABLE_KEY=ec5954ad8f103499a593d7e095f7fbcf4891ed8924e749f647058f131594275e
+OA_API_BASE_URL=https://openart.work/api/v1
