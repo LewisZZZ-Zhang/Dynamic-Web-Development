@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Three-Year Gallery</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Art Institute of Chicago</h1>
+            <p class="subtitle">Three-year timeline</p>
+        </header>
+
+        <div class="timeline">
+            <button id="prevYear" class="nav-btn" aria-label="Previous year">←</button>
+
+            <div class="timeline-track">
+                <div class="timeline-line"></div>
+                <div class="timeline-node" data-slot="prev">
+                    <div class="dot"></div>
+                    <div class="label" id="yearPrev"></div>
+                </div>
+                <div class="timeline-node active" data-slot="current">
+                    <div class="dot"></div>
+                    <div class="label" id="yearCurrent"></div>
+                </div>
+                <div class="timeline-node" data-slot="next">
+                    <div class="dot"></div>
+                    <div class="label" id="yearNext"></div>
+                </div>
+            </div>
+
+            <div class="timeline-actions">
+                <button id="rerollCurrent" class="nav-btn nav-btn-small" aria-label="Reroll current year">⟳</button>
+                <button id="nextYear" class="nav-btn" aria-label="Next year">→</button>
+            </div>
+        </div>
+
+        <div class="jump">
+            <input type="number" id="yearInput" placeholder="Jump to a year (e.g. 1889)" min="1" max="2024">
+            <button id="jumpBtn">Go</button>
+            <span id="currentYear" class="sr-only"></span>
+        </div>
+
+        <p id="status" class="status"></p>
+
+        <section class="gallery">
+            <article class="card" data-slot="prev">
+                <div class="card-year">Previous</div>
+                <div class="card-media">
+                    <img id="imgPrev" src="" alt="">
+                    <div id="emptyPrev" class="card-empty"></div>
+                </div>
+                <div class="card-info">
+                    <h2 id="titlePrev"></h2>
+                    <p id="artistPrev" class="muted"></p>
+                    <p id="datePrev" class="muted"></p>
+                    <a id="linkPrev" href="" target="_blank" class="card-link">View details →</a>
+                </div>
+            </article>
+
+            <article class="card" data-slot="current">
+                <div class="card-year">Current</div>
+                <div class="card-media">
+                    <img id="imgCurrent" src="" alt="">
+                    <div id="emptyCurrent" class="card-empty"></div>
+                </div>
+                <div class="card-info">
+                    <h2 id="titleCurrent"></h2>
+                    <p id="artistCurrent" class="muted"></p>
+                    <p id="dateCurrent" class="muted"></p>
+                    <a id="linkCurrent" href="" target="_blank" class="card-link">View details →</a>
+                </div>
+            </article>
+
+            <article class="card" data-slot="next">
+                <div class="card-year">Next</div>
+                <div class="card-media">
+                    <img id="imgNext" src="" alt="">
+                    <div id="emptyNext" class="card-empty"></div>
+                </div>
+                <div class="card-info">
+                    <h2 id="titleNext"></h2>
+                    <p id="artistNext" class="muted"></p>
+                    <p id="dateNext" class="muted"></p>
+                    <a id="linkNext" href="" target="_blank" class="card-link">View details →</a>
+                </div>
+            </article>
+        </section>
+    </div>
+    
+    <script src="main.js"></script>
+</body>
+</html>

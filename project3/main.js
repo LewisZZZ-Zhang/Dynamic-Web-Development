@@ -3,267 +3,260 @@ const IIIF_BASE = "https://www.artic.edu/iiif/2";
 const MIN_YEAR = 1;
 const MAX_YEAR = 2024;
 
-const yearInput = document.getElementById("yearInput");
-const jumpBtn = document.getElementById("jumpBtn");
-const prevBtn = document.getElementById("prevYear");
-const rerollBtn = document.getElementById("rerollCurrent");
-const nextBtn = document.getElementById("nextYear");
-const currentYearEl = document.getElementById("currentYear");
+const prevButton = document.querySelector(".nav-left");
+const nextButton = document.querySelector(".nav-right");
+const refreshButton = document.getElementById("refreshCurrent");
 const statusEl = document.getElementById("status");
+const labels = Array.from(document.querySelectorAll(".timeline-label"));
 
 const slots = [
-    {
-        key: "prev",
-        offset: -1,
-        yearEl: document.getElementById("yearPrev"),
-        imgEl: document.getElementById("imgPrev"),
-        emptyEl: document.getElementById("emptyPrev"),
-        titleEl: document.getElementById("titlePrev"),
-        artistEl: document.getElementById("artistPrev"),
-        dateEl: document.getElementById("datePrev"),
-        linkEl: document.getElementById("linkPrev"),
-    },
-    {
-        key: "current",
-        offset: 0,
-        yearEl: document.getElementById("yearCurrent"),
-        imgEl: document.getElementById("imgCurrent"),
-        emptyEl: document.getElementById("emptyCurrent"),
-        titleEl: document.getElementById("titleCurrent"),
-        artistEl: document.getElementById("artistCurrent"),
-        dateEl: document.getElementById("dateCurrent"),
-        linkEl: document.getElementById("linkCurrent"),
-    },
-    {
-        key: "next",
-        offset: 1,
-        yearEl: document.getElementById("yearNext"),
-        imgEl: document.getElementById("imgNext"),
-        emptyEl: document.getElementById("emptyNext"),
-        titleEl: document.getElementById("titleNext"),
-        artistEl: document.getElementById("artistNext"),
-        dateEl: document.getElementById("dateNext"),
-        linkEl: document.getElementById("linkNext"),
-    },
+	{
+		key: "prev",
+		yearEl: document.getElementById("yearPrev"),
+		imgEl: document.getElementById("imgPrev"),
+		emptyEl: document.getElementById("emptyPrev"),
+		titleEl: document.getElementById("titlePrev"),
+		artistEl: document.getElementById("artistPrev"),
+		dateEl: document.getElementById("datePrev"),
+		linkEl: document.getElementById("linkPrev"),
+	},
+	{
+		key: "current",
+		yearEl: document.getElementById("yearCurrent"),
+		imgEl: document.getElementById("imgCurrent"),
+		emptyEl: document.getElementById("emptyCurrent"),
+		titleEl: document.getElementById("titleCurrent"),
+		artistEl: document.getElementById("artistCurrent"),
+		dateEl: document.getElementById("dateCurrent"),
+		linkEl: document.getElementById("linkCurrent"),
+	},
+	{
+		key: "next",
+		yearEl: document.getElementById("yearNext"),
+		imgEl: document.getElementById("imgNext"),
+		emptyEl: document.getElementById("emptyNext"),
+		titleEl: document.getElementById("titleNext"),
+		artistEl: document.getElementById("artistNext"),
+		dateEl: document.getElementById("dateNext"),
+		linkEl: document.getElementById("linkNext"),
+	},
 ];
 
-const cache = new Map();
+const slotState = {
+	prev: null,
+	current: null,
+	next: null,
+};
+
 let currentYear = 1900;
 
 const setStatus = (message) => {
-    statusEl.textContent = message || "";
+	if (statusEl) statusEl.textContent = message || "";
 };
 
-const buildImageUrl = (imageId) =>
-    `${IIIF_BASE}/${imageId}/full/843,/0/default.jpg`;
+const getSlot = (key) => slots.find((slot) => slot.key === key);
 
-const setControls = () => {
-    currentYearEl.textContent = currentYear;
-    yearInput.value = currentYear;
-    prevBtn.disabled = currentYear <= MIN_YEAR;
-    nextBtn.disabled = currentYear >= MAX_YEAR;
+const updateLabels = () => {
+	labels.forEach((label) => {
+		const offset = Number(label.dataset.offset || 0);
+		label.textContent = String(currentYear + offset);
+	});
 };
 
-const renderLoading = (slot, year) => {
-    slot.yearEl.textContent = year;
-    slot.emptyEl.textContent = "Loading...";
-    slot.emptyEl.hidden = false;
-    slot.imgEl.hidden = true;
-    slot.titleEl.textContent = "";
-    slot.artistEl.textContent = "";
-    slot.dateEl.textContent = "";
-    slot.linkEl.hidden = true;
+const setText = (el, value) => {
+	if (el) el.textContent = value;
 };
 
-const renderArtwork = (slot, year, artwork, message) => {
-    slot.yearEl.textContent = year;
+const setHidden = (el, hidden) => {
+	if (el) el.hidden = hidden;
+};
 
-    if (!artwork) {
-        slot.emptyEl.textContent = message || "No artwork available";
-        slot.emptyEl.hidden = false;
-        slot.imgEl.hidden = true;
-        slot.titleEl.textContent = "";
-        slot.artistEl.textContent = "";
-        slot.dateEl.textContent = "";
-        slot.linkEl.hidden = true;
-        return;
-    }
+const showLoading = (slot, year) => {
+	if (slot.yearEl) slot.yearEl.textContent = year;
+	setText(slot.emptyEl, "Loading...");
+	setHidden(slot.emptyEl, false);
+	if (slot.imgEl) {
+		slot.imgEl.hidden = true;
+		slot.imgEl.alt = "";
+	}
+	setText(slot.titleEl, "");
+	setText(slot.artistEl, "");
+	setText(slot.dateEl, "");
+	setHidden(slot.linkEl, true);
+};
 
-    const imageUrl = buildImageUrl(artwork.image_id);
-    slot.imgEl.src = imageUrl;
-    slot.imgEl.alt = artwork.title || "Artwork";
-    slot.imgEl.hidden = false;
-    slot.imgEl.onerror = function () {
-        this.hidden = true;
-        slot.emptyEl.textContent = "Image failed to load";
-        slot.emptyEl.hidden = false;
-    };
+const renderSlot = (slot, year, artwork, message) => {
+	if (slot.yearEl) slot.yearEl.textContent = year;
 
-    slot.emptyEl.hidden = true;
-    slot.titleEl.textContent = artwork.title || "Untitled";
-    slot.artistEl.textContent = artwork.artist_display || "Unknown artist";
-    slot.dateEl.textContent = artwork.date_display || "";
-    slot.linkEl.href = `https://www.artic.edu/artworks/${artwork.id}`;
-    slot.linkEl.hidden = false;
+	if (!artwork) {
+		setText(slot.emptyEl, message || "No artwork available");
+		setHidden(slot.emptyEl, false);
+		setHidden(slot.imgEl, true);
+		setText(slot.titleEl, "");
+		setText(slot.artistEl, "");
+		setText(slot.dateEl, "");
+		setHidden(slot.linkEl, true);
+		return;
+	}
+
+	const imageUrl = `${IIIF_BASE}/${artwork.image_id}/full/843,/0/default.jpg`;
+	if (slot.imgEl) {
+		slot.imgEl.src = imageUrl;
+		slot.imgEl.alt = artwork.title || "Artwork";
+		slot.imgEl.hidden = false;
+		slot.imgEl.onerror = function () {
+			this.hidden = true;
+			setText(slot.emptyEl, "Image failed to load");
+			setHidden(slot.emptyEl, false);
+		};
+	}
+
+	setHidden(slot.emptyEl, true);
+	setText(slot.titleEl, artwork.title || "Untitled");
+	setText(slot.artistEl, artwork.artist_display || "Unknown artist");
+	setText(slot.dateEl, artwork.date_display || "");
+	if (slot.linkEl) {
+		slot.linkEl.href = `https://www.artic.edu/artworks/${artwork.id}`;
+		slot.linkEl.hidden = false;
+	}
 };
 
 const fetchRandomArtworkByYear = async (year) => {
-    const countRequestBody = {
-        limit: 0,
-        query: {
-            bool: {
-                must: [
-                    { term: { date_display: String(year) } },
-                    { exists: { field: "image_id" } },
-                    { term: { is_public_domain: true } },
-                    { match: { classification_title: "painting" } },
-                ],
-            },
-        },
-    };
+	const baseQuery = [
+		{ term: { date_display: String(year) } },
+		{ exists: { field: "image_id" } },
+		{ term: { is_public_domain: true } },
+		{ match: { classification_title: "painting" } },
+	];
 
-    const countResponse = await fetch(`${API_BASE}/artworks/search`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(countRequestBody),
-    });
+	const countResponse = await fetch(`${API_BASE}/artworks/search`, {
+		method: "POST",
+		headers: { "Content-Type": "application/json" },
+		body: JSON.stringify({ limit: 0, query: { bool: { must: baseQuery } } }),
+	});
 
-    if (!countResponse.ok) {
-        throw new Error("Failed to load artwork count");
-    }
+	if (!countResponse.ok) {
+		throw new Error("Failed to load artwork count");
+	}
 
-    const countData = await countResponse.json();
-    const total = countData.pagination.total;
+	const countData = await countResponse.json();
+	const total = countData.pagination.total;
+	if (!total) return null;
 
-    if (!total) {
-        return null;
-    }
+	const artworkResponse = await fetch(`${API_BASE}/artworks/search`, {
+		method: "POST",
+		headers: { "Content-Type": "application/json" },
+		body: JSON.stringify({
+			limit: 1,
+			from: Math.floor(Math.random() * total),
+			fields: ["id", "title", "artist_display", "date_display", "image_id"],
+			query: { bool: { must: baseQuery } },
+		}),
+	});
 
-    const randomOffset = Math.floor(Math.random() * total);
-    const artworkRequestBody = {
-        limit: 1,
-        from: randomOffset,
-        fields: [
-            "id",
-            "title",
-            "artist_display",
-            "date_display",
-            "image_id",
-        ],
-        query: {
-            bool: {
-                must: [
-                    { term: { date_display: String(year) } },
-                    { exists: { field: "image_id" } },
-                    { term: { is_public_domain: true } },
-                    { match: { classification_title: "painting" } },
-                ],
-            },
-        },
-    };
+	if (!artworkResponse.ok) {
+		throw new Error("Failed to load artwork");
+	}
 
-    const artworkResponse = await fetch(`${API_BASE}/artworks/search`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(artworkRequestBody),
-    });
-
-    if (!artworkResponse.ok) {
-        throw new Error("Failed to load artwork");
-    }
-
-    const data = await artworkResponse.json();
-    return data.data?.[0] || null;
+	const data = await artworkResponse.json();
+	return data.data?.[0] || null;
 };
 
-const updateWindow = async () => {
-    setControls();
-    setStatus("");
+const fetchAndRenderSlot = async (key, year) => {
+	const slot = getSlot(key);
+	if (!slot) return;
 
-    const entries = slots.map((slot) => ({
-        slot,
-        year: currentYear + slot.offset,
-    }));
+	if (year < MIN_YEAR || year > MAX_YEAR) {
+		slotState[key] = { year, artwork: null, message: "Out of range" };
+		renderSlot(slot, year, null, "Out of range");
+		return;
+	}
 
-    entries.forEach((entry) => renderLoading(entry.slot, entry.year));
+	showLoading(slot, year);
+	try {
+		const artwork = await fetchRandomArtworkByYear(year);
+		slotState[key] = { year, artwork, message: null };
+		renderSlot(slot, year, artwork, "No artwork available");
+	} catch (error) {
+		slotState[key] = { year, artwork: null, message: error.message };
+		renderSlot(slot, year, null, error.message);
+	}
+};
 
-    const results = await Promise.all(
-        entries.map(async (entry) => {
-            const { year } = entry;
-            if (year < MIN_YEAR || year > MAX_YEAR) {
-                return { ...entry, artwork: null, message: "Out of range" };
-            }
+const renderFromState = (key) => {
+	const slot = getSlot(key);
+	const state = slotState[key];
+	if (slot && state) {
+		renderSlot(slot, state.year, state.artwork, state.message);
+	}
+};
 
-            if (cache.has(year)) {
-                return { ...entry, artwork: cache.get(year) };
-            }
+const loadWindow = async () => {
+	setStatus("");
+	updateLabels();
+	await Promise.all([
+		fetchAndRenderSlot("prev", currentYear - 1),
+		fetchAndRenderSlot("current", currentYear),
+		fetchAndRenderSlot("next", currentYear + 1),
+	]);
+};
 
-            try {
-                const artwork = await fetchRandomArtworkByYear(year);
-                cache.set(year, artwork);
-                return { ...entry, artwork };
-            } catch (error) {
-                cache.set(year, null);
-                return { ...entry, artwork: null, message: error.message };
-            }
-        })
-    );
+const shiftWindow = async (delta) => {
+	const nextYear = currentYear + delta;
+	if (nextYear < MIN_YEAR || nextYear > MAX_YEAR) return;
 
-    results.forEach((result) =>
-        renderArtwork(result.slot, result.year, result.artwork, result.message)
-    );
+	currentYear = nextYear;
+	updateLabels();
+
+	if (delta < 0) {
+		slotState.next = slotState.current;
+		slotState.current = slotState.prev;
+		slotState.prev = null;
+		renderFromState("current");
+		renderFromState("next");
+		await fetchAndRenderSlot("prev", currentYear - 1);
+		return;
+	}
+
+	if (delta > 0) {
+		slotState.prev = slotState.current;
+		slotState.current = slotState.next;
+		slotState.next = null;
+		renderFromState("prev");
+		renderFromState("current");
+		await fetchAndRenderSlot("next", currentYear + 1);
+	}
 };
 
 const rerollCurrent = async () => {
-    const currentSlot = slots.find((slot) => slot.key === "current");
-    if (!currentSlot) return;
-    if (currentYear < MIN_YEAR || currentYear > MAX_YEAR) return;
+	const slot = getSlot("current");
+	if (!slot) return;
+	if (currentYear < MIN_YEAR || currentYear > MAX_YEAR) return;
 
-    renderLoading(currentSlot, currentYear);
-    setStatus("");
+	showLoading(slot, currentYear);
+	setStatus("");
 
-    try {
-        const artwork = await fetchRandomArtworkByYear(currentYear);
-        cache.set(currentYear, artwork);
-        renderArtwork(currentSlot, currentYear, artwork, "No artwork available");
-    } catch (error) {
-        cache.set(currentYear, null);
-        renderArtwork(currentSlot, currentYear, null, error.message);
-    }
+	try {
+		const artwork = await fetchRandomArtworkByYear(currentYear);
+		slotState.current = { year: currentYear, artwork, message: null };
+		renderSlot(slot, currentYear, artwork, "No artwork available");
+	} catch (error) {
+		slotState.current = {
+			year: currentYear,
+			artwork: null,
+			message: error.message,
+		};
+		renderSlot(slot, currentYear, null, error.message);
+	}
 };
 
-const changeYear = (delta) => {
-    const nextYear = currentYear + delta;
-    if (nextYear < MIN_YEAR || nextYear > MAX_YEAR) {
-        return;
-    }
-    currentYear = nextYear;
-    updateWindow();
-};
+if (prevButton && nextButton) {
+	prevButton.addEventListener("click", () => shiftWindow(-1));
+	nextButton.addEventListener("click", () => shiftWindow(1));
+}
 
-const jumpToYear = () => {
-    const value = yearInput.value.trim();
-    const year = Number(value);
-    if (!value || Number.isNaN(year)) {
-        setStatus("Enter a valid year");
-        return;
-    }
-    if (year < MIN_YEAR || year > MAX_YEAR) {
-        setStatus(`Enter a year between ${MIN_YEAR}-${MAX_YEAR}`);
-        return;
-    }
-    currentYear = year;
-    updateWindow();
-};
+if (refreshButton) {
+	refreshButton.addEventListener("click", rerollCurrent);
+}
 
-prevBtn.addEventListener("click", () => changeYear(-1));
-nextBtn.addEventListener("click", () => changeYear(1));
-rerollBtn.addEventListener("click", rerollCurrent);
-jumpBtn.addEventListener("click", jumpToYear);
-yearInput.addEventListener("keypress", (event) => {
-    if (event.key === "Enter") {
-        jumpToYear();
-    }
-});
-
-updateWindow();
+loadWindow();
