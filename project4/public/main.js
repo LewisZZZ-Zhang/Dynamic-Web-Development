@@ -1,39 +1,129 @@
 const form = document.getElementById("form");
 const input = document.getElementById("input");
 const list = document.getElementById("list");
+const statusText = document.getElementById("status");
+
+function setStatus(message, isError = false) {
+	statusText.textContent = message;
+	statusText.className = isError ? "error" : "success";
+}
 
 // 获取数据
 async function loadData() {
-  const res = await fetch("/api/data");
-  const data = await res.json();
-  render(data);
+	try {
+		const res = await fetch("/api/data");
+		if (!res.ok) {
+			throw new Error("Failed to load data");
+		}
+
+		const data = await res.json();
+		render(data);
+	} catch (error) {
+		setStatus(error.message, true);
+	}
 }
 
 // 渲染数据到页面
 function render(data) {
-  list.innerHTML = "";
+	list.innerHTML = "";
 
-  data.forEach(item => {
-    const div = document.createElement("div");
-    div.textContent = item.text;
-    list.appendChild(div);
-  });
+	data.forEach(item => {
+		const row = document.createElement("div");
+		row.className = "item-row";
+
+		const text = document.createElement("span");
+		text.textContent = item.text;
+
+		const editBtn = document.createElement("button");
+		editBtn.textContent = "Edit";
+		editBtn.type = "button";
+		editBtn.addEventListener("click", () => editItem(item));
+
+		const deleteBtn = document.createElement("button");
+		deleteBtn.textContent = "Delete";
+		deleteBtn.type = "button";
+		deleteBtn.addEventListener("click", () => deleteItem(item.id));
+
+		row.append(text, editBtn, deleteBtn);
+		list.appendChild(row);
+	});
+}
+
+async function editItem(item) {
+	const updatedText = prompt("Edit this item:", item.text);
+	if (updatedText === null) {
+		return;
+	}
+
+	try {
+		const res = await fetch(`/api/data/${item.id}`, {
+			method: "PUT",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify({ text: updatedText })
+		});
+
+		if (!res.ok) {
+			const err = await res.json();
+			throw new Error(err.error || "Update failed");
+		}
+
+		setStatus("Item updated");
+		loadData();
+	} catch (error) {
+		setStatus(error.message, true);
+	}
+}
+
+async function deleteItem(id) {
+	try {
+		const res = await fetch(`/api/data/${id}`, {
+			method: "DELETE"
+		});
+
+		if (!res.ok) {
+			const err = await res.json();
+			throw new Error(err.error || "Delete failed");
+		}
+
+		setStatus("Item deleted");
+		loadData();
+	} catch (error) {
+		setStatus(error.message, true);
+	}
 }
 
 // 提交新数据
 form.addEventListener("submit", async (e) => {
-  e.preventDefault();
+	e.preventDefault();
+	const value = input.value.trim();
 
-  await fetch("/api/data", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ text: input.value })
-  });
+	if (!value) {
+		setStatus("Please enter text", true);
+		return;
+	}
 
-  input.value = "";
-  loadData();
+	try {
+		const res = await fetch("/api/data", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify({ text: value })
+		});
+
+		if (!res.ok) {
+			const err = await res.json();
+			throw new Error(err.error || "Create failed");
+		}
+
+		input.value = "";
+		setStatus("Item added");
+		loadData();
+	} catch (error) {
+		setStatus(error.message, true);
+	}
 });
 
 // 页面加载时获取数据

@@ -1,14 +1,37 @@
 body {
-  font-family: Arial, sans-serif;
-  max-width: 400px;
-  margin: 40px auto;
+	font-family: Arial, sans-serif;
+	max-width: 400px;
+	margin: 40px auto;
 }
 
 form {
-  margin-bottom: 20px;
+	margin-bottom: 20px;
+	display: flex;
+	gap: 8px;
 }
 
-div {
-  padding: 8px;
-  border-bottom: 1px solid #ddd;
+.item-row {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 8px;
+	border-bottom: 1px solid #ddd;
+}
+
+.item-row span {
+	flex: 1;
+}
+
+#status {
+	min-height: 20px;
+	margin: 0 0 12px;
+	font-size: 14px;
+}
+
+.success {
+	color: #0f766e;
+}
+
+.error {
+	color: #b91c1c;
 }
