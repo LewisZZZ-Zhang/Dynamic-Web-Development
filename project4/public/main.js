@@ -19,12 +19,30 @@ window.onload = () => {
 	function render(data) {
 		list.innerHTML = "";
 
+		const headerRow = document.createElement("div");
+		headerRow.className = "item-row table-header";
+
+		const textHeader = document.createElement("span");
+		textHeader.className = "text-cell";
+		textHeader.textContent = "Note";
+
+		const actionHeader = document.createElement("span");
+		actionHeader.className = "actions-cell";
+		actionHeader.textContent = "Actions";
+
+		headerRow.append(textHeader, actionHeader);
+		list.appendChild(headerRow);
+
 		data.forEach(item => {
 			const row = document.createElement("div");
 			row.className = "item-row";
 
 			const text = document.createElement("span");
+			text.className = "text-cell";
 			text.textContent = item.text;
+
+			const actions = document.createElement("div");
+			actions.className = "actions-cell";
 
 			const editBtn = document.createElement("button"); //edit button
 			editBtn.textContent = "Edit";
@@ -36,7 +54,8 @@ window.onload = () => {
 			deleteBtn.type = "button";
 			deleteBtn.addEventListener("click", () => deleteItem(item.id));
 
-			row.append(text, editBtn, deleteBtn);
+			actions.append(editBtn, deleteBtn);
+			row.append(text, actions);
 			list.appendChild(row);
 		});
 	}

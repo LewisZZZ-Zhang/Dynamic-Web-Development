@@ -6,8 +6,8 @@ app.use(express.json());
 app.use(express.static("public"));
 
 let data = [
-	{ id: 1, text: "item1" },
-	{ id: 2, text: "item2" }
+	{ id: 1, text: "week1: Intro to CSS" },
+	{ id: 2, text: "week2: Intro to the DOM" }
 ];
 
 // READ
