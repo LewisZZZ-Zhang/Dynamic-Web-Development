@@ -14,7 +14,6 @@ window.onload = async () => {
 
     important_paragraph.classList.add('hide');
 
-
     let c = document.getElementById("container");
     let i = document.createElement('img');
     i.src = "assets/fl_1.jpg";
