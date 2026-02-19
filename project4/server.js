@@ -12,6 +12,7 @@ let data = [
 
 // READ
 app.get("/api/data", (req, res) => {
+	console.log("GET /api/data - Read all data");
 	res.json(data);
 });
 
@@ -25,6 +26,7 @@ app.post("/api/data", (req, res) => {
 		text: req.body.text.trim()
 	};
 	data.push(newItem);
+	console.log("POST /api/data - Created new item:", newItem);
 	res.status(201).json(newItem);
 });
 
@@ -41,6 +43,7 @@ app.put("/api/data/:id", (req, res) => {
 	}
 
 	item.text = req.body.text.trim();
+	console.log(`PUT /api/data/${itemId} - Updated item:`, item);
 	res.json(item);
 });
 
@@ -54,9 +57,10 @@ app.delete("/api/data/:id", (req, res) => {
 	if (data.length === previousLength) {
 		return res.status(404).json({ error: "Item not found" });
 	}
+	console.log(`DELETE /api/data/${itemId} - Deleted successfully`);
 	res.status(204).send();
 });
 
 app.listen(PORT, () => {
-	console.log(`Server running`);
+	console.log(`Server running on port ${PORT}`);
 });
