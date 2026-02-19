@@ -1,12 +1,6 @@
 const form = document.getElementById("form");
 const input = document.getElementById("input");
 const list = document.getElementById("list");
-const statusText = document.getElementById("status");
-
-function setStatus(message, isError = false) {
-	statusText.textContent = message;
-	statusText.className = isError ? "error" : "success";
-}
 
 // 获取数据
 async function loadData() {
@@ -19,7 +13,7 @@ async function loadData() {
 		const data = await res.json();
 		render(data);
 	} catch (error) {
-		setStatus(error.message, true);
+		console.error(error.message);
 	}
 }
 
@@ -69,10 +63,9 @@ async function editItem(item) {
 			throw new Error(err.error || "Update failed");
 		}
 
-		setStatus("Item updated");
 		loadData();
 	} catch (error) {
-		setStatus(error.message, true);
+		console.error(error.message);
 	}
 }
 
@@ -87,10 +80,9 @@ async function deleteItem(id) {
 			throw new Error(err.error || "Delete failed");
 		}
 
-		setStatus("Item deleted");
 		loadData();
 	} catch (error) {
-		setStatus(error.message, true);
+		console.error(error.message);
 	}
 }
 
@@ -100,7 +92,6 @@ form.addEventListener("submit", async (e) => {
 	const value = input.value.trim();
 
 	if (!value) {
-		setStatus("Please enter text", true);
 		return;
 	}
 
@@ -119,10 +110,9 @@ form.addEventListener("submit", async (e) => {
 		}
 
 		input.value = "";
-		setStatus("Item added");
 		loadData();
 	} catch (error) {
-		setStatus(error.message, true);
+		console.error(error.message);
 	}
 });
 

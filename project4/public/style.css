@@ -21,17 +21,3 @@ form {
 .item-row span {
 	flex: 1;
 }
-
-#status {
-	min-height: 20px;
-	margin: 0 0 12px;
-	font-size: 14px;
-}
-
-.success {
-	color: #0f766e;
-}
-
-.error {
-	color: #b91c1c;
-}
