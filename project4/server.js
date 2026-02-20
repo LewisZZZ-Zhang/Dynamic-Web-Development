@@ -11,13 +11,13 @@ let data = [
 ];
 
 // READ
-app.get("/data", (req, res) => {
-	console.log("GET /data - Read all data");
+app.get("/api/data", (req, res) => {
+	console.log("GET /api/data - Read all data");
 	res.json(data);
 });
 
 // CREATE
-app.post("/data", (req, res) => {
+app.post("/api/data", (req, res) => {
 	if (!req.body.text || !req.body.text.trim()) {
 		return res.status(400).json({ error: "Text is required" });
 	}
@@ -31,7 +31,7 @@ app.post("/data", (req, res) => {
 });
 
 // UPDATE
-app.put("/data/:id", (req, res) => {
+app.put("/api/data/:id", (req, res) => {
 	const itemId = Number(req.params.id);
 	const item = data.find((entry) => entry.id === itemId);
 
@@ -48,7 +48,7 @@ app.put("/data/:id", (req, res) => {
 });
 
 // DELETE
-app.delete("/data/:id", (req, res) => {
+app.delete("/api/data/:id", (req, res) => {
 	const itemId = Number(req.params.id);
 	const previousLength = data.length;
 
