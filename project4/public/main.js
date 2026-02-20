@@ -1,17 +1,17 @@
-window.onload = () => {
-	const form = document.getElementById("form");
+window.onload = async()=> {
+	const form  = document.getElementById("form");
 	const input = document.getElementById("input");
-	const list = document.getElementById("list");
+	const list  = document.getElementById("list");
 
-	async function loadData() {
-		try {
+	async function loadData(){
+		try{
 			const res = await fetch("/api/data");
 			if (!res.ok) {
 				throw new Error("1");
 			}
 			const data = await res.json();
 			render(data);
-		} catch (error) {
+		}catch (error){
 			console.error(error.message);
 		}
 	}
@@ -68,7 +68,7 @@ window.onload = () => {
 		try {
 			const res = await fetch(`/api/data/${item.id}`, {
 				method: "PUT",
-				headers: { "Content-Type": "application/json" },
+				headers: {"Content-Type":"application/json"},
 				body: JSON.stringify({ text: updatedText })
 			});
 			if (!res.ok) {
@@ -94,17 +94,17 @@ window.onload = () => {
 		}
 	}
 
-	form.addEventListener("submit", async (e) => {
+	form.addEventListener("submit", async(e)=>{
 		e.preventDefault();
 		const value = input.value.trim();
 
-		if (!value) {
+		if(!value){
 			return;
 		}
-		try {
+		try{
 			const res = await fetch("/api/data", {
 				method: "POST",
-				headers: { "Content-Type": "application/json" },
+				headers: {"Content-Type":"application/json"},
 				body: JSON.stringify({ text: value })
 			});
 
@@ -115,7 +115,7 @@ window.onload = () => {
 
 			input.value = "";
 			loadData();
-		} catch (error) {
+		}catch(error){
 			console.error(error.message);
 		}
 	});
