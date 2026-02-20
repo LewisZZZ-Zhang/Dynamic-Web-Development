@@ -11,13 +11,13 @@ let data = [
 ];
 
 // READ
-app.get("/api/data", (req, res) => {
-	console.log("GET /api/data - Read all data");
+app.get("/data", (req, res) => {
+	console.log("GET /data - Read all data");
 	res.json(data);
 });
 
 // CREATE
-app.post("/api/data", (req, res) => {
+app.post("/data", (req, res) => {
 	if (!req.body.text || !req.body.text.trim()) {
 		return res.status(400).json({ error: "Text is required" });
 	}
@@ -26,41 +26,41 @@ app.post("/api/data", (req, res) => {
 		text: req.body.text.trim()
 	};
 	data.push(newItem);
-	console.log("POST /api/data - Created new item:", newItem);
+	console.log("new: ", newItem);
 	res.status(201).json(newItem);
 });
 
 // UPDATE
-app.put("/api/data/:id", (req, res) => {
+app.put("/data/:id", (req, res) => {
 	const itemId = Number(req.params.id);
 	const item = data.find((entry) => entry.id === itemId);
 
 	if (!item) {
-		return res.status(404).json({ error: "Item not found" });
+		return res.status(404).json({ error: "1" });
 	}
 	if (!req.body.text || !req.body.text.trim()) {
-		return res.status(400).json({ error: "Text is required" });
+		return res.status(400).json({ error: "no input!" });
 	}
 
 	item.text = req.body.text.trim();
-	console.log(`PUT /api/data/${itemId} - Updated item:`, item);
+	console.log(`Updated: ${itemId}`, item);
 	res.json(item);
 });
 
 // DELETE
-app.delete("/api/data/:id", (req, res) => {
+app.delete("/data/:id", (req, res) => {
 	const itemId = Number(req.params.id);
 	const previousLength = data.length;
 
 	data = data.filter((entry) => entry.id !== itemId);
 
 	if (data.length === previousLength) {
-		return res.status(404).json({ error: "Item not found" });
+		return res.status(404).json({ error: "1" });
 	}
-	console.log(`DELETE /api/data/${itemId} - Deleted successfully`);
+	console.log(`delete/${itemId} - deleted`);
 	res.status(204).send();
 });
 
 app.listen(PORT, () => {
-	console.log(`Server running on port ${PORT}`);
+	console.log(`server running on port ${PORT}`);
 });

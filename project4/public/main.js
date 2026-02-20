@@ -5,9 +5,9 @@ window.onload = () => {
 
 	async function loadData() {
 		try {
-			const res = await fetch("/api/data");
+			const res = await fetch("/data");
 			if (!res.ok) {
-				throw new Error("Failed to load data");
+				throw new Error("1");
 			}
 			const data = await res.json();
 			render(data);
@@ -66,7 +66,7 @@ window.onload = () => {
 			return;
 		}
 		try {
-			const res = await fetch(`/api/data/${item.id}`, {
+			const res = await fetch(`/data/${item.id}`, {
 				method: "PUT",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({ text: updatedText })
@@ -83,7 +83,7 @@ window.onload = () => {
 
 	async function deleteItem(id) {
 		try {
-			const res = await fetch(`/api/data/${id}`, {method: "DELETE"});
+			const res = await fetch(`/data/${id}`, {method: "DELETE"});
 			if (!res.ok) {
 				const err = await res.json();
 				throw new Error(err.error || "Delete failed");
@@ -102,7 +102,7 @@ window.onload = () => {
 			return;
 		}
 		try {
-			const res = await fetch("/api/data", {
+			const res = await fetch("/data", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({ text: value })
