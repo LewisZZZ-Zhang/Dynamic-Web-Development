@@ -2,8 +2,8 @@ const express = require("express");
 const app = express();
 const PORT = 3000;
 
-app.use(express.json());
 app.use(express.static("public"));
+app.use(express.urlencoded({ extended: true }));
 
 let data = [
 	{ id: 1, text: "week1: Intro to CSS" },
