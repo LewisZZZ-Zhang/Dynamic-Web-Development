@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width,initial-scale=1" />
+	<title>NYC Map</title>
+
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+	<link rel="stylesheet" href="/style/style.css" />
+</head>
+
+<body>
+	<main>
+		<h1>New York Map</h1>
+		<div id="map"></div>
+	</main>
+
+	<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+	<script>
+		const map = L.map('map').setView([40.7128, -74.006], 12)
+
+		L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+			maxZoom: 19,
+			attribution: '&copy; OpenStreetMap contributors',
+		}).addTo(map)
+
+		async function loadPoints() {
+			const res = await fetch('/api/points')
+			if (!res.ok) throw new Error(`Failed to load points: ${res.status}`)
+			const points = await res.json()
+
+			for (const p of points) {
+				if (typeof p.lat !== 'number' || typeof p.lng !== 'number') continue
+				const label = typeof p.name === 'string' && p.name.trim() ? p.name.trim() : 'Point'
+				L.marker([p.lat, p.lng]).addTo(map).bindPopup(label)
+			}
+		}
+
+		loadPoints().catch((err) => {
+			console.error(err)
+			alert('Could not load points from the backend.')
+		})
+	</script>
+</body>
+
+</html>
