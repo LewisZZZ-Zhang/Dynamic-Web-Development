@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width,initial-scale=1" />
+	<title>Location Detail</title>
+	<link rel="stylesheet" href="/style/style.css" />
+</head>
+
+<body>
+	<main class="page">
+		<p><a class="btn" href="/">Back to map</a></p>
+		<h1>Location Detail</h1>
+		<section id="detail" class="card">Loading...</section>
+		<section class="card">
+			<h2>Discussion</h2>
+			<form id="commentForm" class="stack">
+				<div>
+					<label for="commentText">Add a comment</label>
+					<textarea id="commentText" rows="3" required></textarea>
+				</div>
+				<div>
+					<button class="btn" type="submit">Post comment</button>
+				</div>
+			</form>
+			<div id="comments" class="stack"></div>
+		</section>
+	</main>
+
+	<script>
+		const pointId = window.location.pathname.split('/').pop()
+		const detailEl = document.getElementById('detail')
+		const commentsEl = document.getElementById('comments')
+
+		function escapeHtml(text) {
+			return String(text)
+				.replaceAll('&', '&amp;')
+				.replaceAll('<', '&lt;')
+				.replaceAll('>', '&gt;')
+				.replaceAll('"', '&quot;')
+				.replaceAll("'", '&#39;')
+		}
+
+		function renderComments(comments) {
+			if (!Array.isArray(comments) || comments.length === 0) {
+				commentsEl.innerHTML = '<p class="muted">No comments yet.</p>'
+				return
+			}
+
+			commentsEl.innerHTML = comments
+				.slice()
+				.reverse()
+				.map((comment) => {
+					const createdAt = comment.createdAt ? new Date(comment.createdAt).toLocaleString() : ''
+					return `
+						<article class="comment-item">
+							<p>${escapeHtml(comment.text || '')}</p>
+							<div class="muted">${escapeHtml(createdAt)}</div>
+						</article>
+					`
+				})
+				.join('')
+		}
+
+		async function vote(type) {
+			const res = await fetch(`/api/points/${encodeURIComponent(pointId)}/vote`, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ type }),
+			})
+			if (!res.ok) throw new Error(`Vote failed: ${res.status}`)
+			const data = await res.json()
+			document.getElementById('upvotes').textContent = String(data.upvotes ?? 0)
+			document.getElementById('downvotes').textContent = String(data.downvotes ?? 0)
+		}
+
+		async function loadDetail() {
+			const res = await fetch(`/api/points/${encodeURIComponent(pointId)}`)
+			if (!res.ok) throw new Error(`Failed to load detail: ${res.status}`)
+			const p = await res.json()
+
+			detailEl.innerHTML = `
+				<div class="stack">
+					<div><strong>Location:</strong> ${escapeHtml(p.name || '')}</div>
+					<div><strong>Film title:</strong> ${escapeHtml(p.movieName || '')}</div>
+					<div><strong>Geographic coordinates:</strong> ${escapeHtml(p.lat)}, ${escapeHtml(p.lng)}</div>
+					<div><strong>Scene timestamp:</strong> ${escapeHtml(p.sceneTimestamp || '00:00:00')}</div>
+					<div><strong>User-written description:</strong> ${escapeHtml(p.description || '')}</div>
+					<div><strong>Film still:</strong></div>
+					${p.stillUrl ? `<img class="still-image" src="${escapeHtml(p.stillUrl)}" alt="Film still for ${escapeHtml(p.movieName || 'movie')}" />` : '<p class="muted">No still image.</p>'}
+					<div class="vote-row">
+						<button id="upvoteBtn" class="btn" type="button">Upvote (<span id="upvotes">${p.upvotes ?? 0}</span>)</button>
+						<button id="downvoteBtn" class="btn" type="button">Downvote (<span id="downvotes">${p.downvotes ?? 0}</span>)</button>
+					</div>
+				</div>
+			`
+
+			renderComments(Array.isArray(p.comments) ? p.comments : [])
+
+			document.getElementById('upvoteBtn').addEventListener('click', () => {
+				vote('up').catch(console.error)
+			})
+			document.getElementById('downvoteBtn').addEventListener('click', () => {
+				vote('down').catch(console.error)
+			})
+		}
+
+		document.getElementById('commentForm').addEventListener('submit', async (event) => {
+			event.preventDefault()
+			const input = document.getElementById('commentText')
+			const text = input.value.trim()
+			if (!text) return
+
+			const res = await fetch(`/api/points/${encodeURIComponent(pointId)}/comments`, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ text }),
+			})
+			if (!res.ok) throw new Error(`Comment failed: ${res.status}`)
+			const data = await res.json()
+			input.value = ''
+			renderComments(Array.isArray(data.comments) ? data.comments : [])
+		})
+
+		loadDetail().catch((err) => {
+			console.error(err)
+			detailEl.textContent = 'Could not load detail.'
+			commentsEl.innerHTML = ''
+		})
+	</script>
+</body>
+
+</html>

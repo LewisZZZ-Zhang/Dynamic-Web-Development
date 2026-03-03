@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width,initial-scale=1" />
+	<title>Most popular uploads</title>
+	<link rel="stylesheet" href="/style/style.css" />
+</head>
+
+<body>
+	<main class="page">
+		<p><a class="btn" href="/">Back to map</a></p>
+		<h1>Most popular uploads</h1>
+		<section id="list" class="stack"></section>
+	</main>
+
+	<script>
+		async function loadPopular() {
+			const res = await fetch('/api/popular?limit=20')
+			if (!res.ok) throw new Error(`Failed to load popular uploads: ${res.status}`)
+			const rows = await res.json()
+			const list = document.getElementById('list')
+
+			if (rows.length === 0) {
+				list.innerHTML = '<p class="muted">No data yet.</p>'
+				return
+			}
+
+			list.innerHTML = rows
+				.map((p, i) => `
+					<article class="card">
+						<div><strong>#${i + 1} ${p.name}</strong></div>
+						<div>Movie: ${p.movieName}</div>
+						<div>Uploads: ${p.uploads ?? 0}</div>
+						<p><a href="/points/${encodeURIComponent(p._id)}">View detail</a></p>
+					</article>
+				`)
+				.join('')
+		}
+
+		loadPopular().catch((err) => {
+			console.error(err)
+			document.getElementById('list').innerHTML = '<p class="muted">Failed to load data.</p>'
+		})
+	</script>
+</body>
+
+</html>
