@@ -16,7 +16,7 @@
 			<div id="map"></div>
 			<div class="floating-controls floating-left">
 				<a class="btn" href="/search">Search by movie name</a>
-				<a class="btn" href="/popular">View most popular uploads</a>
+				<a class="btn" href="/popular">View most popular locations</a>
 			</div>
 			<div class="floating-controls floating-right">
 				<a class="btn" href="/add-location">Add a new location</a>
@@ -25,40 +25,7 @@
 	</main>
 
 	<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-	<script>
-		const map = L.map('map').setView([40.7128, -74.006], 12)
-
-		L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-			maxZoom: 19,
-			attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
-		}).addTo(map)
-
-		async function loadPoints() {
-			const res = await fetch('/api/points')
-			if (!res.ok) throw new Error(`Failed to load points: ${res.status}`)
-			const points = await res.json()
-
-			for (const p of points) {
-				if (typeof p.lat !== 'number' || typeof p.lng !== 'number') continue
-				const label = typeof p.name === 'string' && p.name.trim() ? p.name.trim() : 'Point'
-				const marker = L.marker([p.lat, p.lng]).addTo(map)
-				if (p._id) {
-					const detailUrl = `/points/${encodeURIComponent(p._id)}`
-					marker.bindPopup(`<a href="${detailUrl}">${label}</a>`)
-					marker.on('click', () => {
-						window.location.href = detailUrl
-					})
-				} else {
-					marker.bindPopup(label)
-				}
-			}
-		}
-
-		loadPoints().catch((err) => {
-			console.error(err)
-			alert('Could not load points from the backend.')
-		})
-	</script>
+	<script src="/js/index.js"></script>
 </body>
 
 </html>

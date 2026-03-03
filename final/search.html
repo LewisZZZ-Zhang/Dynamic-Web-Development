@@ -24,45 +24,7 @@
 		<section id="results" class="stack"></section>
 	</main>
 
-	<script>
-		const movieInput = document.getElementById('movie')
-		const resultsEl = document.getElementById('results')
-
-		async function doSearch() {
-			const movie = movieInput.value.trim()
-			if (!movie) {
-				resultsEl.innerHTML = '<p class="muted">Please enter a movie name.</p>'
-				return
-			}
-
-			const res = await fetch(`/api/search?movie=${encodeURIComponent(movie)}`)
-			if (!res.ok) throw new Error(`Search failed: ${res.status}`)
-			const rows = await res.json()
-
-			if (rows.length === 0) {
-				resultsEl.innerHTML = '<p class="muted">No matching locations found.</p>'
-				return
-			}
-
-			resultsEl.innerHTML = rows
-				.map((p) => `
-					<article class="card">
-						<div><strong>${p.name}</strong></div>
-						<div>Movie: ${p.movieName}</div>
-						<div>Uploads: ${p.uploads ?? 0}</div>
-						<p><a href="/points/${encodeURIComponent(p._id)}">View detail</a></p>
-					</article>
-				`)
-				.join('')
-		}
-
-		document.getElementById('searchBtn').addEventListener('click', () => {
-			doSearch().catch((err) => {
-				console.error(err)
-				resultsEl.innerHTML = '<p class="muted">Search failed.</p>'
-			})
-		})
-	</script>
+	<script src="/js/search.js"></script>
 </body>
 
 </html>

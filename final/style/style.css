@@ -173,10 +173,45 @@ label {
 	border: 1px solid #262b36;
 }
 
+.detail-layout {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 16px;
+	align-items: start;
+}
+
+.detail-right {
+	display: grid;
+	gap: 8px;
+}
+
 .vote-row {
 	display: flex;
 	gap: 8px;
 	flex-wrap: wrap;
+}
+
+.vote-up {
+	background: #1f6f43;
+	border-color: #2b8c58;
+}
+
+.vote-up:hover {
+	background: #268a53;
+}
+
+.vote-down {
+	background: #7a2b2b;
+	border-color: #a13a3a;
+}
+
+.vote-down:hover {
+	background: #943535;
+}
+
+.form-actions-right {
+	display: flex;
+	justify-content: flex-end;
 }
 
 .comment-item {

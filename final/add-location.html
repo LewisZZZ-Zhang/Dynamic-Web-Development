@@ -14,7 +14,7 @@
 		<p><a class="btn" href="/">Back to map</a></p>
 		<h1>Add a new location</h1>
 		<div class="add-layout card">
-			<form class="stack" method="post" action="/add-location">
+			<form class="stack" method="post" action="/add-location" enctype="multipart/form-data">
 				<div>
 					<label for="name">Location name</label>
 					<input id="name" name="name" type="text" required />
@@ -28,16 +28,12 @@
 					<input id="sceneTimestamp" name="sceneTimestamp" type="text" placeholder="e.g. 00:43:12" required />
 				</div>
 				<div>
-					<label for="stillUrl">Film still image URL</label>
-					<input id="stillUrl" name="stillUrl" type="text" placeholder="https://..." required />
+					<label for="stillImage">Film still image</label>
+					<input id="stillImage" name="stillImage" type="file" accept="image/*" required />
 				</div>
 				<div>
 					<label for="description">User-written description</label>
 					<textarea id="description" name="description" rows="4" required></textarea>
-				</div>
-				<div>
-					<label for="uploads">Uploads</label>
-					<input id="uploads" name="uploads" type="number" min="0" step="1" value="0" />
 				</div>
 
 				<input id="lat" name="lat" type="hidden" required />
@@ -54,32 +50,7 @@
 	</main>
 
 	<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-	<script>
-		const pickMap = L.map('pickMap').setView([40.7128, -74.006], 11)
-
-		L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-			maxZoom: 19,
-			attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
-		}).addTo(pickMap)
-
-		const latInput = document.getElementById('lat')
-		const lngInput = document.getElementById('lng')
-		const coordHint = document.getElementById('coordHint')
-		let selectedMarker = null
-
-		pickMap.on('click', (event) => {
-			const { lat, lng } = event.latlng
-			latInput.value = lat.toFixed(6)
-			lngInput.value = lng.toFixed(6)
-			coordHint.textContent = `Selected: ${latInput.value}, ${lngInput.value}`
-
-			if (!selectedMarker) {
-				selectedMarker = L.marker([lat, lng]).addTo(pickMap)
-			} else {
-				selectedMarker.setLatLng([lat, lng])
-			}
-		})
-	</script>
+	<script src="/js/add-location.js"></script>
 </body>
 
 </html>
