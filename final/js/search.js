@@ -1,10 +1,12 @@
 window.onload = async () => {
 	const movieInput = document.getElementById('movie')
 	const resultsEl = document.getElementById('results')
+	const query = new URLSearchParams(window.location.search)
+	const movieFromUrl = query.get('movie') || ''
+	movieInput.value = movieFromUrl
 
-	async function doSearch() {
-		const movie = movieInput.value
-		const res = await fetch('/api/search?movie=' + encodeURIComponent(movie))
+	async function doSearch(movie) {
+		const res = await fetch('/search-data?movie=' + encodeURIComponent(movie))
 		const rows = await res.json()
 
 		while (resultsEl.firstChild) {
@@ -37,7 +39,16 @@ window.onload = async () => {
 
 			resultsEl.appendChild(article)
 		}
+
+		if (rows.length === 0) {
+			const empty = document.createElement('p')
+			empty.className = 'muted'
+			empty.textContent = 'No matching locations found.'
+			resultsEl.appendChild(empty)
+		}
 	}
 
-	document.getElementById('searchBtn').addEventListener('click', doSearch)
+	if (movieFromUrl.trim()) {
+		doSearch(movieFromUrl)
+	}
 }

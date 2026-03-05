@@ -1,8 +1,8 @@
 window.onload = async () => {
 	const pickMap = L.map('pickMap').setView([40.7128, -74.006], 11)
 
-	L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-		maxZoom: 19,
+	L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+		maxZoom: 20,
 		attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
 	}).addTo(pickMap)
 

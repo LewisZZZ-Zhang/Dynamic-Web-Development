@@ -16,10 +16,10 @@
 		<section id="voteSection" class="card">Loading votes...</section>
 		<section class="card">
 			<h2>Discussion</h2>
-			<form id="commentForm" class="stack">
+			<form id="commentForm" class="stack" method="post">
 				<div>
 					<label for="commentText">Add a comment</label>
-					<textarea id="commentText" rows="3" required></textarea>
+					<textarea id="commentText" name="text" rows="3" required></textarea>
 				</div>
 				<div class="form-actions-right">
 					<button class="btn" type="submit">Post comment</button>

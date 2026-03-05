@@ -12,15 +12,15 @@
 	<main class="page">
 		<p><a class="btn" href="/">Back to map</a></p>
 		<h1>Search by movie name</h1>
-		<section class="card stack">
+		<form class="card stack" method="get" action="/search">
 			<div>
 				<label for="movie">Movie name</label>
-				<input id="movie" type="text" placeholder="e.g. Spider-Man" />
+				<input id="movie" name="movie" type="text" placeholder="e.g. Spider-Man" />
 			</div>
 			<div>
-				<button class="btn" id="searchBtn" type="button">Search</button>
+				<button class="btn" type="submit">Search</button>
 			</div>
-		</section>
+		</form>
 		<section id="results" class="stack"></section>
 	</main>
 

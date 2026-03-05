@@ -50,23 +50,7 @@ window.onload = async () => {
 		}
 	}
 
-	async function vote(type) {
-		const res = await fetch('/api/points/' + pointId + '/vote', {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ type }),
-		})
-		const data = await res.json()
-		if (data.deleted) {
-			alert('This location was removed because downvotes exceeded 20.')
-			window.location.href = '/'
-			return
-		}
-		document.getElementById('upvotes').textContent = data.upvotes
-		document.getElementById('downvotes').textContent = data.downvotes
-	}
-
-	const pointRes = await fetch('/api/points/' + pointId)
+	const pointRes = await fetch('/points/' + pointId + '/data')
 	const p = await pointRes.json()
 
 	clearElement(detailEl)
@@ -80,6 +64,16 @@ window.onload = async () => {
 	addTextLine(detailLeft, 'Location', p.name)
 	addTextLine(detailLeft, 'Film title', p.movieName)
 	addTextLine(detailLeft, 'Geographic coordinates', p.lat + ', ' + p.lng)
+
+	const mapLinkRow = document.createElement('div')
+	const mapLink = document.createElement('a')
+	mapLink.href = 'https://www.google.com/maps?q=' + encodeURIComponent(p.lat + ',' + p.lng)
+	mapLink.target = '_blank'
+	mapLink.rel = 'noopener noreferrer'
+	mapLink.textContent = 'Open these coordinates in Google Maps'
+	mapLinkRow.appendChild(mapLink)
+	detailLeft.appendChild(mapLinkRow)
+
 	addTextLine(detailLeft, 'Scene timestamp', p.sceneTimestamp || '00:00:00')
 	addTextLine(detailLeft, 'User-written description', p.description || '')
 
@@ -96,6 +90,8 @@ window.onload = async () => {
 		img.className = 'still-image'
 		img.src = p.stillUrl
 		img.alt = 'Film still'
+		img.loading = 'lazy'
+		img.decoding = 'async'
 		detailRight.appendChild(img)
 	} else {
 		const noImage = document.createElement('p')
@@ -111,53 +107,42 @@ window.onload = async () => {
 	const voteRow = document.createElement('div')
 	voteRow.className = 'vote-row'
 
+	const upvoteForm = document.createElement('form')
+	upvoteForm.method = 'post'
+	upvoteForm.action = '/points/' + pointId + '/vote'
+
 	const upvoteBtn = document.createElement('button')
-	upvoteBtn.id = 'upvoteBtn'
 	upvoteBtn.className = 'btn vote-up'
-	upvoteBtn.type = 'button'
+	upvoteBtn.type = 'submit'
+	upvoteBtn.name = 'type'
+	upvoteBtn.value = 'up'
 	upvoteBtn.textContent = 'Upvote ('
 	const upvotesSpan = document.createElement('span')
-	upvotesSpan.id = 'upvotes'
 	upvotesSpan.textContent = p.upvotes || 0
 	upvoteBtn.appendChild(upvotesSpan)
 	upvoteBtn.appendChild(document.createTextNode(')'))
+	upvoteForm.appendChild(upvoteBtn)
+
+	const downvoteForm = document.createElement('form')
+	downvoteForm.method = 'post'
+	downvoteForm.action = '/points/' + pointId + '/vote'
 
 	const downvoteBtn = document.createElement('button')
-	downvoteBtn.id = 'downvoteBtn'
 	downvoteBtn.className = 'btn vote-down'
-	downvoteBtn.type = 'button'
+	downvoteBtn.type = 'submit'
+	downvoteBtn.name = 'type'
+	downvoteBtn.value = 'down'
 	downvoteBtn.textContent = 'Downvote ('
 	const downvotesSpan = document.createElement('span')
-	downvotesSpan.id = 'downvotes'
 	downvotesSpan.textContent = p.downvotes || 0
 	downvoteBtn.appendChild(downvotesSpan)
 	downvoteBtn.appendChild(document.createTextNode(')'))
+	downvoteForm.appendChild(downvoteBtn)
 
-	voteRow.appendChild(upvoteBtn)
-	voteRow.appendChild(downvoteBtn)
+	voteRow.appendChild(upvoteForm)
+	voteRow.appendChild(downvoteForm)
 	voteSectionEl.appendChild(voteRow)
 
+	commentForm.action = '/points/' + pointId + '/comments'
 	renderComments(p.comments || [])
-
-	upvoteBtn.addEventListener('click', function () {
-		vote('up')
-	})
-	downvoteBtn.addEventListener('click', function () {
-		vote('down')
-	})
-
-	commentForm.addEventListener('submit', async function (event) {
-		event.preventDefault()
-		const input = document.getElementById('commentText')
-		const text = input.value
-
-		const res = await fetch('/api/points/' + pointId + '/comments', {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ text }),
-		})
-		const data = await res.json()
-		input.value = ''
-		renderComments(data.comments || [])
-	})
 }

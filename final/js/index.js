@@ -6,7 +6,7 @@ window.onload = async () => {
 		attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
 	}).addTo(map)
 
-	const res = await fetch('/api/points')
+	const res = await fetch('/points-data')
 	const points = await res.json()
 
 	for (let i = 0; i < points.length; i++) {

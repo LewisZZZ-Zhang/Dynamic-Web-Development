@@ -1,5 +1,5 @@
 window.onload = async () => {
-	const res = await fetch('/api/popular')
+	const res = await fetch('/popular-data')
 	const rows = await res.json()
 	const listEl = document.getElementById('list')
 
