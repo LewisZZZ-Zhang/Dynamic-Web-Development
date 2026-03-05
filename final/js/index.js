@@ -1,5 +1,5 @@
 window.onload = async () => {
-	const map = L.map('map').setView([40.729, -73.985], 13)
+	const map = L.map('map').setView([40.729, -73.989], 13)
 
 	L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
 		maxZoom: 19,
@@ -13,11 +13,6 @@ window.onload = async () => {
 		const p = points[i]
 		const detailUrl = '/points/' + p._id
 		const marker = L.marker([p.lat, p.lng]).addTo(map)
-
-		const link = document.createElement('a')
-		link.href = detailUrl
-		link.textContent = p.name
-		marker.bindPopup(link)
 
 		marker.on('click', function () {
 			window.location.href = detailUrl

@@ -4,7 +4,7 @@ const multer = require('multer')
 const nedb = require('@seald-io/nedb')
 
 const app = express()
-const PORT = 3000
+const PORT = 3004
 
 const db = new nedb({
 	filename: path.join(__dirname, 'data', 'points.db'),
@@ -30,6 +30,10 @@ app.get('/popular', (req, res) => {
 
 app.get('/add-location', (req, res) => {
 	res.sendFile(path.join(__dirname, 'add-location.html'))
+})
+
+app.get('/about', (req, res) => {
+	res.sendFile(path.join(__dirname, 'about.html'))
 })
 
 app.get('/points/:id', (req, res) => {
@@ -65,6 +69,7 @@ app.get('/search-data', (req, res) => {
 			console.error('Error finding documents:', err)
 			res.status(500).send('Error finding documents')
 		} else {
+			docs.sort((a, b) => (b.upvotes - b.downvotes) - (a.upvotes - a.downvotes))
 			res.json(docs)
 		}
 	})
@@ -76,7 +81,7 @@ app.get('/popular-data', (req, res) => {
 			console.error('Error finding documents:', err)
 			res.status(500).send('Error finding documents')
 		} else {
-			docs.sort((a, b) => b.upvotes - a.upvotes)
+			docs.sort((a, b) => (b.upvotes - b.downvotes) - (a.upvotes - a.downvotes))
 			res.json(docs)
 		}
 	})

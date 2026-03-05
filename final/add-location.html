@@ -10,9 +10,11 @@
 </head>
 
 <body class="add-page">
-	<main class="page">
-		<p><a class="btn" href="/">Back to map</a></p>
+	<header class="topbar page-topbar">
+		<a class="btn" href="/">Back to map</a>
 		<h1>Add a new location</h1>
+	</header>
+	<main class="page">
 		<div class="add-layout card">
 			<form class="stack" method="post" action="/add-location" enctype="multipart/form-data">
 				<div>
@@ -40,7 +42,7 @@
 				<input id="lng" name="lng" type="hidden" required />
 
 				<p id="coordHint" class="muted">Click on the map to choose coordinates.</p>
-				<div>
+				<div class="form-actions-right">
 					<button class="btn" type="submit">Create</button>
 				</div>
 			</form>

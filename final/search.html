@@ -9,15 +9,17 @@
 </head>
 
 <body>
-	<main class="page">
-		<p><a class="btn" href="/">Back to map</a></p>
+	<header class="topbar page-topbar">
+		<a class="btn" href="/">Back to map</a>
 		<h1>Search by movie name</h1>
+	</header>
+	<main class="page">
 		<form class="card stack" method="get" action="/search">
 			<div>
 				<label for="movie">Movie name</label>
 				<input id="movie" name="movie" type="text" placeholder="e.g. Spider-Man" />
 			</div>
-			<div>
+			<div class="form-actions-right">
 				<button class="btn" type="submit">Search</button>
 			</div>
 		</form>

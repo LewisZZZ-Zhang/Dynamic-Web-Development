@@ -46,6 +46,31 @@ body.map-page .map-shell {
 	font-size: 1.1rem;
 }
 
+.page-topbar {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 1200;
+	justify-content: center;
+}
+
+.page-topbar h1 {
+	margin: 0;
+	text-align: center;
+}
+
+.page-topbar .btn {
+	position: absolute;
+	left: 12px;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+.page-topbar + .page {
+	padding-top: 78px;
+}
+
 .btn {
 	display: inline-block;
 	padding: 8px 12px;
@@ -185,7 +210,7 @@ body.add-page .add-layout > form {
 	max-height: 100%;
 	overflow: auto;
 	padding-right: 6px;
-	align-self: center;
+	align-self: start;
 }
 
 #pickMap {
