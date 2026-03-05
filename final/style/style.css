@@ -296,9 +296,11 @@ body.add-page #pickMap {
 	background: #943535;
 }
 
+
 .form-actions-right {
 	display: flex;
 	justify-content: flex-end;
+	margin-bottom: 12px;
 }
 
 .comment-item {
