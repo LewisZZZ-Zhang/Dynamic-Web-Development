@@ -1,4 +1,5 @@
 const path = require('path')
+const fs = require('fs')
 const express = require('express')
 const multer = require('multer')
 const nedb = require('@seald-io/nedb')
@@ -137,9 +138,50 @@ app.post('/points/:id/reupload', upload.single('stillImage'), (req, res) => {
 		if (err) {
 			console.error('Error updating still image:', err)
 			res.status(500).send('Error updating still image')
-		} else {
-			res.redirect('/points/' + req.params.id)
+			return
 		}
+
+		db.find({}, (findErr, docs) => {
+			if (findErr) {
+				console.error('Error finding documents:', findErr)
+				res.redirect('/points/' + req.params.id)
+				return
+			}
+
+			const referencedFiles = new Set()
+			for (let i = 0; i < docs.length; i++) {
+				const url = docs[i].stillUrl
+				if (url && url.startsWith('/uploads/')) {
+					referencedFiles.add(url.replace('/uploads/', ''))
+				}
+			}
+
+			const uploadsDir = path.join(__dirname, 'uploads')
+			fs.readdir(uploadsDir, (readErr, files) => {
+				if (readErr) {
+					console.error('Error reading uploads directory:', readErr)
+					res.redirect('/points/' + req.params.id)
+					return
+				}
+
+				let pending = 0
+				for (let i = 0; i < files.length; i++) {
+					if (!referencedFiles.has(files[i])) {
+						pending += 1
+						fs.unlink(path.join(uploadsDir, files[i]), () => {
+							pending -= 1
+							if (pending === 0) {
+								res.redirect('/points/' + req.params.id)
+							}
+						})
+					}
+				}
+
+				if (pending === 0) {
+					res.redirect('/points/' + req.params.id)
+				}
+			})
+		})
 	})
 })
 
