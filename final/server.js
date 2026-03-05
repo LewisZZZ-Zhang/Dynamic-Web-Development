@@ -59,7 +59,7 @@ app.get('/points/:id/data', (req, res) => {
 })
 
 app.get('/search-data', (req, res) => {
-	const movie = req.query.movie || ''
+	const movie = req.query.movie
 	db.find({ movieName: { $regex: new RegExp(movie, 'i') } }, (err, docs) => {
 		if (err) {
 			console.error('Error finding documents:', err)
@@ -76,15 +76,18 @@ app.get('/popular-data', (req, res) => {
 			console.error('Error finding documents:', err)
 			res.status(500).send('Error finding documents')
 		} else {
-			docs.sort((a, b) => (b.upvotes || 0) - (a.upvotes || 0))
+			docs.sort((a, b) => b.upvotes - a.upvotes)
 			res.json(docs)
 		}
 	})
 })
 
 app.post('/points/:id/vote', (req, res) => {
-	const type = req.body.type === 'down' ? 'down' : 'up'
-	const field = type === 'down' ? 'downvotes' : 'upvotes'
+	const type = req.body.type
+	let field = 'upvotes'
+	if (type === 'down') {
+		field = 'downvotes'
+	}
 
 	db.update({ _id: req.params.id }, { $inc: { [field]: 1 } }, {}, (err) => {
 		if (err) {
@@ -136,7 +139,7 @@ app.post('/add-location', upload.single('stillImage'), (req, res) => {
 		lng: Number(req.body.lng),
 		sceneTimestamp: req.body.sceneTimestamp,
 		description: req.body.description,
-		stillUrl: req.file ? `/uploads/${req.file.filename}` : '',
+		stillUrl: `/uploads/${req.file.filename}`,
 		upvotes: 0,
 		downvotes: 0,
 		comments: [],

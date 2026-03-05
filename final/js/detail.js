@@ -124,7 +124,7 @@ window.onload = async () => {
 	upvoteBtn.value = 'up'
 	upvoteBtn.textContent = 'Upvote ('
 	const upvotesSpan = document.createElement('span')
-	upvotesSpan.textContent = p.upvotes || 0
+	upvotesSpan.textContent = p.upvotes
 	upvoteBtn.appendChild(upvotesSpan)
 	upvoteBtn.appendChild(document.createTextNode(')'))
 	upvoteForm.appendChild(upvoteBtn)
@@ -140,7 +140,7 @@ window.onload = async () => {
 	downvoteBtn.value = 'down'
 	downvoteBtn.textContent = 'Downvote ('
 	const downvotesSpan = document.createElement('span')
-	downvotesSpan.textContent = p.downvotes || 0
+	downvotesSpan.textContent = p.downvotes
 	downvoteBtn.appendChild(downvotesSpan)
 	downvoteBtn.appendChild(document.createTextNode(')'))
 	downvoteForm.appendChild(downvoteBtn)

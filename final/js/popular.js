@@ -3,6 +3,28 @@ window.onload = async () => {
 	const rows = await res.json()
 	const listEl = document.getElementById('list')
 
+	function addField(parent, label, value) {
+		const row = document.createElement('div')
+		row.className = 'detail-row'
+
+		const labelDiv = document.createElement('div')
+		labelDiv.className = 'detail-label'
+		labelDiv.textContent = label + ':'
+
+		const valueDiv = document.createElement('div')
+		valueDiv.className = 'detail-value'
+		if (typeof value === 'string') {
+			valueDiv.textContent = value
+		} else {
+			valueDiv.appendChild(value)
+		}
+
+		row.appendChild(labelDiv)
+		row.appendChild(valueDiv)
+		parent.appendChild(row)
+		return valueDiv
+	}
+
 	while (listEl.firstChild) {
 		listEl.removeChild(listEl.firstChild)
 	}
@@ -16,22 +38,16 @@ window.onload = async () => {
 		const left = document.createElement('div')
 		left.className = 'popular-left'
 
-		const titleDiv = document.createElement('div')
-		const strong = document.createElement('strong')
-		strong.textContent = '#' + (i + 1) + ' ' + p.name
-		titleDiv.appendChild(strong)
-
-		const movieDiv = document.createElement('div')
-		movieDiv.textContent = 'Movie: ' + p.movieName
-
-		const voteDiv = document.createElement('div')
-		voteDiv.textContent = 'Upvotes: ' + (p.upvotes) + ' | Downvotes: ' + (p.downvotes)
+		addField(left, 'Location', p.name)
+		addField(left, 'Film title', p.movieName)
+		addField(left, 'Votes', 'Upvote (' + p.upvotes + ') Downvote (' + p.downvotes + ')')
 
 		const linkP = document.createElement('p')
 		const link = document.createElement('a')
 		link.href = '/points/' + p._id
 		link.textContent = 'View detail'
 		linkP.appendChild(link)
+		left.appendChild(linkP)
 
 		const right = document.createElement('div')
 		right.className = 'popular-right'
@@ -42,11 +58,6 @@ window.onload = async () => {
 			img.alt = p.name + ' still'
 			right.appendChild(img)
 		}
-
-		left.appendChild(titleDiv)
-		left.appendChild(movieDiv)
-		left.appendChild(voteDiv)
-		left.appendChild(linkP)
 
 		article.appendChild(left)
 		article.appendChild(right)
