@@ -131,6 +131,18 @@ app.post('/points/:id/comments', (req, res) => {
 	})
 })
 
+app.post('/points/:id/reupload', upload.single('stillImage'), (req, res) => {
+	const stillUrl = `/uploads/${req.file.filename}`
+	db.update({ _id: req.params.id }, { $set: { stillUrl: stillUrl } }, {}, (err) => {
+		if (err) {
+			console.error('Error updating still image:', err)
+			res.status(500).send('Error updating still image')
+		} else {
+			res.redirect('/points/' + req.params.id)
+		}
+	})
+})
+
 app.post('/add-location', upload.single('stillImage'), (req, res) => {
 	const data = {
 		name: req.body.name,

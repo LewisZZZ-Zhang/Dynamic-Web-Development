@@ -106,6 +106,36 @@ window.onload = async () => {
 		detailRight.appendChild(noImage)
 	}
 
+	const reuploadForm = document.createElement('form')
+	reuploadForm.className = 'stack'
+	reuploadForm.method = 'post'
+	reuploadForm.action = '/points/' + pointId + '/reupload'
+	reuploadForm.enctype = 'multipart/form-data'
+
+	const reuploadField = document.createElement('div')
+	const reuploadLabel = document.createElement('label')
+	reuploadLabel.setAttribute('for', 'stillImageUpdate')
+	reuploadLabel.textContent = 'Re-upload film still'
+	const reuploadInput = document.createElement('input')
+	reuploadInput.id = 'stillImageUpdate'
+	reuploadInput.name = 'stillImage'
+	reuploadInput.type = 'file'
+	reuploadInput.accept = 'image/*'
+	reuploadInput.required = true
+	reuploadField.appendChild(reuploadLabel)
+	reuploadField.appendChild(reuploadInput)
+
+	const reuploadActions = document.createElement('div')
+	const reuploadButton = document.createElement('button')
+	reuploadButton.className = 'btn'
+	reuploadButton.type = 'submit'
+	reuploadButton.textContent = 'Re-upload image'
+	reuploadActions.appendChild(reuploadButton)
+
+	reuploadForm.appendChild(reuploadField)
+	reuploadForm.appendChild(reuploadActions)
+	detailRight.appendChild(reuploadForm)
+
 	detailLayout.appendChild(detailLeft)
 	detailLayout.appendChild(detailRight)
 	detailEl.appendChild(detailLayout)
