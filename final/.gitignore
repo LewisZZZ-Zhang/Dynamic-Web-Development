@@ -2,3 +2,6 @@ data/*.db
 uploads
 documentation_requirements.md
 How to Write Good Documentation _ how-to.html
+documentation.md
+limitation.md
+research&concept.md
