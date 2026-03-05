@@ -8,28 +8,30 @@
 	<link rel="stylesheet" href="/style/style.css" />
 </head>
 
-<body>
-	<main class="page">
-		<p><a class="btn" href="/">Back to map</a></p>
-		<h1>Location Detail</h1>
-		<section id="detail" class="card">Loading...</section>
-		<section id="voteSection" class="card">Loading votes...</section>
-		<section class="card">
-			<h2>Discussion</h2>
-			<form id="commentForm" class="stack" method="post">
-				<div>
-					<label for="commentText">Add a comment</label>
-					<textarea id="commentText" name="text" rows="3" required></textarea>
-				</div>
-				<div class="form-actions-right">
-					<button class="btn" type="submit">Post comment</button>
-				</div>
-			</form>
-			<div id="comments" class="stack"></div>
-		</section>
-	</main>
 
-	<script src="/js/detail.js"></script>
+<body>
+   <header class="topbar page-topbar">
+	   <a class="btn" href="/">Back to map</a>
+	   <h1>Location Detail</h1>
+   </header>
+   <main class="page">
+	   <section id="detail" class="card">Loading...</section>
+	   <section id="voteSection" class="card">Loading votes...</section>
+	   <section class="card">
+		   <h2>Discussion</h2>
+		   <form id="commentForm" class="stack" method="post">
+			   <div>
+				   <label for="commentText">Add a comment</label>
+				   <textarea id="commentText" name="text" rows="3" required></textarea>
+			   </div>
+			   <div class="form-actions-right">
+				   <button class="btn" type="submit">Post comment</button>
+			   </div>
+		   </form>
+		   <div id="comments" class="stack"></div>
+	   </section>
+   </main>
+   <script src="/js/detail.js"></script>
 </body>
 
 </html>
