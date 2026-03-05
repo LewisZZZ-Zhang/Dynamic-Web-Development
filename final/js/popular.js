@@ -11,7 +11,10 @@ window.onload = async () => {
 		const p = rows[i]
 
 		const article = document.createElement('article')
-		article.className = 'card'
+		article.className = 'card popular-item'
+
+		const left = document.createElement('div')
+		left.className = 'popular-left'
 
 		const titleDiv = document.createElement('div')
 		const strong = document.createElement('strong')
@@ -22,7 +25,7 @@ window.onload = async () => {
 		movieDiv.textContent = 'Movie: ' + p.movieName
 
 		const voteDiv = document.createElement('div')
-		voteDiv.textContent = 'Upvotes: ' + (p.upvotes || 0)
+		voteDiv.textContent = 'Upvotes: ' + (p.upvotes) + ' | Downvotes: ' + (p.downvotes)
 
 		const linkP = document.createElement('p')
 		const link = document.createElement('a')
@@ -30,10 +33,23 @@ window.onload = async () => {
 		link.textContent = 'View detail'
 		linkP.appendChild(link)
 
-		article.appendChild(titleDiv)
-		article.appendChild(movieDiv)
-		article.appendChild(voteDiv)
-		article.appendChild(linkP)
+		const right = document.createElement('div')
+		right.className = 'popular-right'
+		if (p.stillUrl) {
+			const img = document.createElement('img')
+			img.className = 'popular-thumb'
+			img.src = p.stillUrl
+			img.alt = p.name + ' still'
+			right.appendChild(img)
+		}
+
+		left.appendChild(titleDiv)
+		left.appendChild(movieDiv)
+		left.appendChild(voteDiv)
+		left.appendChild(linkP)
+
+		article.appendChild(left)
+		article.appendChild(right)
 
 		listEl.appendChild(article)
 	}

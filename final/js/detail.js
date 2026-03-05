@@ -12,12 +12,21 @@ window.onload = async () => {
 	}
 
 	function addTextLine(parent, label, value) {
-		const div = document.createElement('div')
-		const strong = document.createElement('strong')
-		strong.textContent = label + ': '
-		div.appendChild(strong)
-		div.appendChild(document.createTextNode(value))
-		parent.appendChild(div)
+		const row = document.createElement('div')
+		row.className = 'detail-row'
+
+		const labelDiv = document.createElement('div')
+		labelDiv.className = 'detail-label'
+		labelDiv.textContent = label + ':'
+
+		const valueDiv = document.createElement('div')
+		valueDiv.className = 'detail-value'
+		valueDiv.appendChild(document.createTextNode(value))
+
+		row.appendChild(labelDiv)
+		row.appendChild(valueDiv)
+		parent.appendChild(row)
+		return valueDiv
 	}
 
 	function renderComments(comments) {
@@ -63,19 +72,16 @@ window.onload = async () => {
 	detailLeft.className = 'detail-left stack'
 	addTextLine(detailLeft, 'Location', p.name)
 	addTextLine(detailLeft, 'Film title', p.movieName)
-	addTextLine(detailLeft, 'Geographic coordinates', p.lat + ', ' + p.lng)
-
-	const mapLinkRow = document.createElement('div')
+	const coordinateValue = addTextLine(detailLeft, 'Geographic coordinates', p.lat + ', ' + p.lng + ' ')
 	const mapLink = document.createElement('a')
 	mapLink.href = 'https://www.google.com/maps?q=' + encodeURIComponent(p.lat + ',' + p.lng)
 	mapLink.target = '_blank'
 	mapLink.rel = 'noopener noreferrer'
-	mapLink.textContent = 'Open these coordinates in Google Maps'
-	mapLinkRow.appendChild(mapLink)
-	detailLeft.appendChild(mapLinkRow)
+	mapLink.textContent = 'Google Maps'
+	coordinateValue.appendChild(mapLink)
 
-	addTextLine(detailLeft, 'Scene timestamp', p.sceneTimestamp || '00:00:00')
-	addTextLine(detailLeft, 'User-written description', p.description || '')
+	addTextLine(detailLeft, 'Scene timestamp', p.sceneTimestamp)
+	addTextLine(detailLeft, 'Description', p.description)
 
 	const detailRight = document.createElement('div')
 	detailRight.className = 'detail-right'

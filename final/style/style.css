@@ -26,8 +26,13 @@ body.map-page {
 	height: 100%;
 }
 
+body.map-page .map-shell {
+	flex: 1;
+	min-height: 0;
+}
+
 .topbar {
-	padding: 12px;
+	padding: 18px 12px;
 	display: flex;
 	gap: 8px;
 	align-items: center;
@@ -80,6 +85,11 @@ body.map-page {
 .floating-right {
 	right: 14px;
 	bottom: 14px;
+}
+
+.floating-top-right {
+	right: 14px;
+	top: 14px;
 }
 
 .page {
@@ -221,10 +231,36 @@ body.add-page #pickMap {
 	gap: 8px;
 }
 
+.detail-row {
+	display: grid;
+	gap: 4px;
+}
+
+.detail-label {
+	font-size: 0.9rem;
+	font-weight: 700;
+	color: #9aa3b2;
+}
+
+.detail-value {
+	font-size: 1rem;
+	line-height: 1.4;
+}
+
 .vote-row {
 	display: flex;
 	gap: 8px;
 	flex-wrap: wrap;
+	justify-content: center;
+}
+
+.vote-row form {
+	display: flex;
+}
+
+.vote-row .btn {
+	min-width: 140px;
+	text-align: center;
 }
 
 .vote-up {
@@ -259,4 +295,28 @@ body.add-page #pickMap {
 
 .comment-item p {
 	margin: 0 0 6px;
+}
+
+.popular-item {
+	display: grid;
+	grid-template-columns: 1fr 200px;
+	gap: 14px;
+	align-items: start;
+}
+
+.popular-left p {
+	margin-bottom: 0;
+}
+
+.popular-right {
+	display: flex;
+	justify-content: flex-end;
+}
+
+.popular-thumb {
+	width: 200px;
+	height: 120px;
+	object-fit: cover;
+	border-radius: 10px;
+	border: 1px solid #262b36;
 }
