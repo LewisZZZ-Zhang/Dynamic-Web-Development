@@ -71,7 +71,11 @@ window.onload = async () => {
 	const detailLeft = document.createElement('div')
 	detailLeft.className = 'detail-left stack'
 	addTextLine(detailLeft, 'Location', p.name)
-	addTextLine(detailLeft, 'Film title', p.movieName)
+	const movieValue = addTextLine(detailLeft, 'Film title', p.movieName + ' ')
+	const movieSearchLink = document.createElement('a')
+	movieSearchLink.href = '/search?movie=' + encodeURIComponent(p.movieName)
+	movieSearchLink.textContent = 'More locations from this movie'
+	movieValue.appendChild(movieSearchLink)
 	const coordinateValue = addTextLine(detailLeft, 'Geographic coordinates', p.lat + ', ' + p.lng + ' ')
 	const mapLink = document.createElement('a')
 	mapLink.href = 'https://www.google.com/maps?q=' + encodeURIComponent(p.lat + ',' + p.lng)
