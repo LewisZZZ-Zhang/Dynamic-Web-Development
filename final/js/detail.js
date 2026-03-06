@@ -61,6 +61,7 @@ window.onload = async () => {
 
 	const pointRes = await fetch('/points/' + pointId + '/data')
 	const p = await pointRes.json()
+	console.log('detail data:', p)
 
 	clearElement(detailEl)
 	clearElement(voteSectionEl)
@@ -95,7 +96,7 @@ window.onload = async () => {
 	stillLabel.appendChild(stillStrong)
 	detailRight.appendChild(stillLabel)
 
-	if (p.image) {
+		if (p.image) {
 		const img = document.createElement('img')
 		img.className = 'still-image'
 		img.src = p.image

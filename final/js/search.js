@@ -8,6 +8,7 @@ window.onload = async () => {
 	async function doSearch(movie) {
 		const res = await fetch('/search-data?movie=' + encodeURIComponent(movie))
 		const rows = await res.json()
+		console.log('search rows:', rows)
 
 		function addField(parent, label, value) {
 			const row = document.createElement('div')
@@ -37,6 +38,7 @@ window.onload = async () => {
 
 		for (let i = 0; i < rows.length; i++) {
 			const p = rows[i]
+			console.log('search item image:', p._id, p.image)
 
 			const article = document.createElement('article')
 			article.className = 'card popular-item'
