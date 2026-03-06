@@ -340,20 +340,28 @@ body.add-page #pickMap {
 	margin-bottom: 12px;
 }
 
-.random-actions {
-	display: flex;
-	justify-content: flex-end;
-	gap: 10px;
-	flex-wrap: wrap;
+.random-page #detail {
+	padding: 0;
+	overflow: hidden;
 }
 
-.random-top-actions {
-	display: flex;
-	justify-content: flex-end;
-	margin-bottom: 12px;
+.random-image-wrap {
+	width: 100%;
 }
 
-.detail-action-row {
+.random-hero-image {
+	display: block;
+	width: 100%;
+	height: min(68vh, 640px);
+	object-fit: cover;
+	border-bottom: 1px solid #262b36;
+}
+
+.random-info {
+	padding: 14px;
+}
+
+.random-detail-action {
 	margin-top: 8px;
 }
 
