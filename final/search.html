@@ -10,8 +10,17 @@
 
 <body>
 	<header class="topbar page-topbar">
-		<a class="btn" href="/">Back to map</a>
-		<h1>Search by movie name</h1>
+		<div class="topbar-left">
+			<a class="btn" href="/">Back to map</a>
+		</div>
+		<div class="topbar-center">
+			<h1>Search by movie name</h1>
+		</div>
+		<div class="topbar-right">
+			<a href="/" aria-label="Home">
+				<img class="topbar-logo" src="/style/logo.png" alt="Marvel map logo" />
+			</a>
+		</div>
 	</header>
 	<main class="page">
 		<form class="card stack" method="get" action="/search">

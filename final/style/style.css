@@ -7,6 +7,11 @@ body {
 	background: #0f1115;
 }
 
+:root {
+	--topbar-height: 72px;
+	--topbar-side-width: 220px;
+}
+
 a {
 	color: #78a6ff;
 }
@@ -32,18 +37,62 @@ body.map-page .map-shell {
 }
 
 .topbar {
-	padding: 18px 12px;
+	min-height: var(--topbar-height);
+	padding: 0 12px;
 	display: flex;
-	gap: 8px;
+	justify-content: space-between;
 	align-items: center;
+	box-sizing: border-box;
 	background: #151922;
 	border-bottom: 1px solid #262b36;
-	flex-wrap: wrap;
 }
 
 .topbar h1 {
-	margin: 0 14px 0 0;
+	margin: 0;
 	font-size: 1.1rem;
+}
+
+.topbar-left,
+.topbar-right {
+	min-width: var(--topbar-side-width);
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.topbar-right {
+	justify-content: flex-end;
+}
+
+.topbar-center {
+	flex: 1;
+	min-width: 0;
+	display: flex;
+	justify-content: center;
+	padding: 0 12px;
+}
+
+.topbar-center h1 {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.topbar-logo {
+	display: block;
+	width: auto;
+	height: 44px;
+	object-fit: contain;
+}
+
+.topbar--home .topbar-left {
+	flex: 1;
+	min-width: 0;
+}
+
+.topbar--home .topbar-left h1 {
+	font-size: 1.05rem;
+	line-height: 1.25;
 }
 
 .page-topbar {
@@ -52,23 +101,10 @@ body.map-page .map-shell {
 	left: 0;
 	right: 0;
 	z-index: 1200;
-	justify-content: center;
-}
-
-.page-topbar h1 {
-	margin: 0;
-	text-align: center;
-}
-
-.page-topbar .btn {
-	position: absolute;
-	left: 12px;
-	top: 50%;
-	transform: translateY(-50%);
 }
 
 .page-topbar + .page {
-	padding-top: 78px;
+	padding-top: calc(var(--topbar-height) + 20px);
 }
 
 .btn {
@@ -80,6 +116,7 @@ body.map-page .map-shell {
 	text-decoration: none;
 	color: #e6e8eb;
 	cursor: pointer;
+	font-size: 1rem;
 }
 
 .btn:hover {
@@ -326,6 +363,7 @@ body.add-page #pickMap {
 	justify-content: flex-end;
 	height: 100%;
 }
+
 
 .popular-thumb {
 	width: 100%;

@@ -95,10 +95,10 @@ window.onload = async () => {
 	stillLabel.appendChild(stillStrong)
 	detailRight.appendChild(stillLabel)
 
-	if (p.stillUrl) {
+	if (p.image) {
 		const img = document.createElement('img')
 		img.className = 'still-image'
-		img.src = p.stillUrl
+		img.src = p.image
 		img.alt = 'Film still'
 		img.loading = 'lazy'
 		img.decoding = 'async'

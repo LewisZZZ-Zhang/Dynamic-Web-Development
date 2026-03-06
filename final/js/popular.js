@@ -51,10 +51,10 @@ window.onload = async () => {
 
 		const right = document.createElement('div')
 		right.className = 'popular-right'
-		if (p.stillUrl) {
+		if (p.image) {
 			const img = document.createElement('img')
 			img.className = 'popular-thumb'
-			img.src = p.stillUrl
+			img.src = p.image
 			img.alt = p.name + ' still'
 			right.appendChild(img)
 		}

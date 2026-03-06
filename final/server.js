@@ -1,4 +1,3 @@
-const path = require('path')
 const express = require('express')
 const multer = require('multer')
 const nedb = require('@seald-io/nedb')
@@ -7,37 +6,37 @@ const app = express()
 const PORT = 3004
 
 const db = new nedb({
-	filename: path.join(__dirname, 'data', 'points.db'),
+	filename: './data/points.db',
 	autoload: true,
 })
 
-const upload = multer({ dest: path.join(__dirname, 'uploads') })
+const upload = multer({ dest: './uploads' })
 
 app.use(express.static(__dirname))
 app.use(express.urlencoded({ extended: true }))
 
 app.get('/', (req, res) => {
-	res.sendFile(path.join(__dirname, 'index.html'))
+	res.sendFile('index.html', { root: __dirname })
 })
 
 app.get('/search', (req, res) => {
-	res.sendFile(path.join(__dirname, 'search.html'))
+	res.sendFile('search.html', { root: __dirname })
 })
 
 app.get('/popular', (req, res) => {
-	res.sendFile(path.join(__dirname, 'popular.html'))
+	res.sendFile('popular.html', { root: __dirname })
 })
 
 app.get('/add-location', (req, res) => {
-	res.sendFile(path.join(__dirname, 'add-location.html'))
+	res.sendFile('add-location.html', { root: __dirname })
 })
 
 app.get('/about', (req, res) => {
-	res.sendFile(path.join(__dirname, 'about.html'))
+	res.sendFile('about.html', { root: __dirname })
 })
 
 app.get('/points/:id', (req, res) => {
-	res.sendFile(path.join(__dirname, 'detail.html'))
+	res.sendFile('detail.html', { root: __dirname })
 })
 
 app.get('/points-data', (req, res) => {
@@ -82,15 +81,17 @@ app.get('/popular-data', (req, res) => {
 			res.status(500).send('Error finding documents')
 		} else {
 			docs.sort((a, b) => (b.upvotes - b.downvotes) - (a.upvotes - a.downvotes))
-			res.json(docs)
+			res.json(docs.slice(0, 10))
 		}
 	})
 })
 
 app.post('/points/:id/vote', (req, res) => {
 	const type = req.body.type
-	let field = 'upvotes'
-	if (type === 'down') {
+	let field
+	if (type === 'up') {
+		field = 'upvotes'
+	} else if (type === 'down') {
 		field = 'downvotes'
 	}
 
@@ -144,7 +145,7 @@ app.post('/add-location', upload.single('stillImage'), (req, res) => {
 		lng: Number(req.body.lng),
 		sceneTimestamp: req.body.sceneTimestamp,
 		description: req.body.description,
-		stillUrl: `/uploads/${req.file.filename}`,
+		image: `/uploads/${req.file.filename}`,
 		upvotes: 0,
 		downvotes: 0,
 		comments: [],
