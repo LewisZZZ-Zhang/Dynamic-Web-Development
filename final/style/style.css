@@ -340,6 +340,23 @@ body.add-page #pickMap {
 	margin-bottom: 12px;
 }
 
+.random-actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: 10px;
+	flex-wrap: wrap;
+}
+
+.random-top-actions {
+	display: flex;
+	justify-content: flex-end;
+	margin-bottom: 12px;
+}
+
+.detail-action-row {
+	margin-top: 8px;
+}
+
 .comment-item {
 	border: 1px solid #262b36;
 	border-radius: 8px;

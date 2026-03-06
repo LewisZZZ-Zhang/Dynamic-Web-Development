@@ -35,6 +35,10 @@ app.get('/about', (req, res) => {
 	res.sendFile('about.html', { root: __dirname })
 })
 
+app.get('/random', (req, res) => {
+	res.sendFile('random.html', { root: __dirname })
+})
+
 app.get('/points/:id', (req, res) => {
 	res.sendFile('detail.html', { root: __dirname })
 })
@@ -83,6 +87,24 @@ app.get('/popular-data', (req, res) => {
 			docs.sort((a, b) => (b.upvotes - b.downvotes) - (a.upvotes - a.downvotes))
 			res.json(docs.slice(0, 10))
 		}
+	})
+})
+
+app.get('/random-data', (req, res) => {
+	db.find({}, (err, docs) => {
+		if (err) {
+			console.error('Error finding documents:', err)
+			res.status(500).send('Error finding documents')
+			return
+		}
+
+		if (!docs || docs.length === 0) {
+			res.status(404).json({ message: 'No locations found' })
+			return
+		}
+
+		const randomIndex = Math.floor(Math.random() * docs.length)
+		res.json(docs[randomIndex])
 	})
 })
 

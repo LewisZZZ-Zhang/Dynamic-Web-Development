@@ -82,7 +82,7 @@ window.onload = async () => {
 	mapLink.href = 'https://www.google.com/maps?q=' + encodeURIComponent(p.lat + ',' + p.lng)
 	mapLink.target = '_blank'
 	mapLink.rel = 'noopener noreferrer'
-	mapLink.textContent = 'Google Maps'
+	mapLink.textContent = 'Go Right Now'
 	coordinateValue.appendChild(mapLink)
 
 	addTextLine(detailLeft, 'Scene timestamp', p.sceneTimestamp)
@@ -96,7 +96,7 @@ window.onload = async () => {
 	stillLabel.appendChild(stillStrong)
 	detailRight.appendChild(stillLabel)
 
-		if (p.image) {
+	if (p.image) {
 		const img = document.createElement('img')
 		img.className = 'still-image'
 		img.src = p.image
@@ -107,7 +107,7 @@ window.onload = async () => {
 	} else {
 		const noImage = document.createElement('p')
 		noImage.className = 'muted'
-		noImage.textContent = 'No still image.'
+		noImage.textContent = 'Error!!! No image.'
 		detailRight.appendChild(noImage)
 	}
 
