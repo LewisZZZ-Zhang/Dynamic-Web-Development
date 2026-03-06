@@ -54,11 +54,14 @@ window.onload = async () => {
 		const right = document.createElement('div')
 		right.className = 'popular-right'
 		if (p.image) {
+			const imgLink = document.createElement('a')
+			imgLink.href = '/points/' + p._id
 			const img = document.createElement('img')
 			img.className = 'popular-thumb'
 			img.src = p.image
 			img.alt = p.name + ' still'
-			right.appendChild(img)
+			imgLink.appendChild(img)
+			right.appendChild(imgLink)
 		}
 
 		article.appendChild(left)
