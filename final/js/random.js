@@ -20,13 +20,18 @@ window.onload = async () => {
 		imageWrap.className = 'random-image-wrap'
 
 		if (p.image) {
+			const link = document.createElement('a')
+			link.href = '/points/' + p._id
+			link.tabIndex = 0
+			link.setAttribute('aria-label', 'Go to detail and comments')
 			const img = document.createElement('img')
 			img.className = 'random-hero-image'
 			img.src = p.image
 			img.alt = p.name || 'Film still'
 			img.loading = 'lazy'
 			img.decoding = 'async'
-			imageWrap.appendChild(img)
+			link.appendChild(img)
+			imageWrap.appendChild(link)
 		} else {
 			const noImage = document.createElement('p')
 			noImage.className = 'muted'
