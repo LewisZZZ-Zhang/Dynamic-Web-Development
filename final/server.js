@@ -1,6 +1,7 @@
 const express = require('express')
 const multer = require('multer')
 const nedb = require('@seald-io/nedb')
+const path = require('path')
 
 const app = express()
 const PORT = 3004
@@ -12,7 +13,9 @@ const db = new nedb({
 
 const upload = multer({ dest: './uploads' })
 
-app.use(express.static(__dirname))
+app.use('/js', express.static(path.join(__dirname, 'js')))
+app.use('/style', express.static(path.join(__dirname, 'style')))
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 app.use(express.urlencoded({ extended: true }))
 
 app.get('/', (req, res) => {
