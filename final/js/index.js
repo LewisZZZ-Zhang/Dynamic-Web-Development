@@ -1,4 +1,31 @@
 window.onload = async () => {
+	const controlsDrawer = document.querySelector('.map-controls-drawer')
+	const controlsToggle = document.querySelector('.map-controls-toggle')
+
+	function syncMapControls() {
+		if (!controlsDrawer || !controlsToggle) {
+			return
+		}
+
+		const isMobile = window.innerWidth < 768
+		const isOpen = !isMobile || controlsDrawer.classList.contains('is-open')
+		controlsToggle.setAttribute('aria-expanded', String(isOpen))
+	}
+
+	if (controlsDrawer && controlsToggle) {
+		controlsToggle.addEventListener('click', () => {
+			if (window.innerWidth >= 768) {
+				return
+			}
+
+			controlsDrawer.classList.toggle('is-open')
+			syncMapControls()
+		})
+
+		window.addEventListener('resize', syncMapControls)
+		syncMapControls()
+	}
+
 	function getDefaultZoom() {
 		if (window.innerWidth < 768) {
 			return 12

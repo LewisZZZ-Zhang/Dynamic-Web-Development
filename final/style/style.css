@@ -205,22 +205,33 @@ body.map-page .map-shell {
 }
 
 .floating-controls {
-	position: absolute;
 	display: flex;
 	flex-direction: column;
 	gap: 8px;
-	z-index: 1000;
 	pointer-events: auto;
 	box-sizing: border-box;
 }
 
 .floating-top-right {
+	position: absolute;
 	top: 16px;
 	right: 16px;
+	z-index: 1000;
 }
 
 .map-page .floating-top-right .btn {
 	min-width: 300px;
+}
+
+.map-controls-drawer {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	gap: 10px;
+}
+
+.map-controls-toggle {
+	display: none;
 }
 
 .map-floating-logo {
@@ -849,6 +860,26 @@ body.add-page #pickMap {
 		bottom: 16px;
 	}
 
+	.map-controls-drawer {
+		align-items: stretch;
+	}
+
+	.map-controls-toggle {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 100%;
+		min-width: 0;
+	}
+
+	body.map-page .map-controls-drawer .floating-controls {
+		display: none;
+	}
+
+	body.map-page .map-controls-drawer.is-open .floating-controls {
+		display: flex;
+	}
+
 	.floating-controls .btn,
 	.form-actions-right .btn,
 	.vote-row .btn {
@@ -894,16 +925,7 @@ body.add-page #pickMap {
 	}
 
 	.topbar--home .topbar-left h1 {
-		font-size: 1.35rem;
-	}
-
-	.hero-title-sub {
-		font-size: 0.62em;
-		letter-spacing: 0.05em;
-	}
-
-	.topbar--home .topbar-left h1 {
-		font-size: 2rem;
+		font-size: 1.5rem;
 	}
 
 	.hero-title-sub {
