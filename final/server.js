@@ -6,6 +6,10 @@ const path = require('path')
 const app = express()
 const PORT = 3004
 
+function escapeRegex(value) {
+	return String(value).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+
 const db = new nedb({
 	filename: './data/points.db',
 	autoload: true,
@@ -69,8 +73,10 @@ app.get('/points/:id/data', (req, res) => {
 })
 
 app.get('/search-data', (req, res) => {
-	const movie = req.query.movie
-	db.find({ movieName: { $regex: new RegExp(movie, 'i') } }, (err, docs) => {
+	const movie = typeof req.query.movie === 'string' ? req.query.movie.trim() : ''
+	const moviePattern = new RegExp(escapeRegex(movie), 'i')
+
+	db.find({ movieName: { $regex: moviePattern } }, (err, docs) => {
 		if (err) {
 			console.error('Error finding documents:', err)
 			res.status(500).send('Error finding documents')
