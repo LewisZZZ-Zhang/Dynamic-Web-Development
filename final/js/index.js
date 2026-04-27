@@ -1,5 +1,17 @@
 window.onload = async () => {
-	const map = L.map('map').setView([40.729, -73.989], 13)
+	function getDefaultZoom() {
+		if (window.innerWidth < 768) {
+			return 12
+		}
+
+		if (window.innerWidth < 1024) {
+			return 13
+		}
+
+		return 13
+	}
+
+	const map = L.map('map').setView([40.729, -73.989], getDefaultZoom())
 
 	L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
 		maxZoom: 19,

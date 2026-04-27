@@ -211,6 +211,14 @@ body.add-page .page {
 	margin-bottom: 12px;
 }
 
+.search-form {
+	width: 100%;
+	max-width: 1200px;
+	box-sizing: border-box;
+	margin-left: auto;
+	margin-right: auto;
+}
+
 .stack {
 	display: grid;
 	gap: 10px;
@@ -277,6 +285,11 @@ body.add-page .add-layout {
 	min-height: 0;
 	align-items: center;
 	margin-bottom: 0;
+	width: 100%;
+	max-width: 1500px;
+	box-sizing: border-box;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 body.add-page .add-layout > form {
@@ -313,6 +326,20 @@ body.add-page #pickMap {
 	grid-template-columns: 1fr 1fr;
 	gap: 16px;
 	align-items: start;
+}
+
+.detail-page > .card {
+	width: 100%;
+	max-width: 1500px;
+	box-sizing: border-box;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.detail-left {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 }
 
 .detail-right {
@@ -380,6 +407,30 @@ body.add-page #pickMap {
 .random-page #detail {
 	padding: 0;
 	overflow: hidden;
+	width: 100%;
+	max-width: 1200px;
+	box-sizing: border-box;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.random-page {
+	padding-bottom: 104px;
+}
+
+.random-floating-action {
+	position: fixed;
+	left: 50%;
+	bottom: 20px;
+	transform: translateX(-50%);
+	z-index: 1250;
+	margin-bottom: 0;
+	justify-content: center;
+	width: auto;
+}
+
+.random-floating-action .btn {
+	white-space: nowrap;
 }
 
 .random-image-wrap {
@@ -414,10 +465,25 @@ body.add-page #pickMap {
 }
 
 .popular-item {
+	--popular-card-height: 280px;
 	display: grid;
-	grid-template-columns: 1fr 200px;
+	grid-template-columns: minmax(0, 1fr) calc(var(--popular-card-height) * 16 / 9);
 	gap: 14px;
 	align-items: stretch;
+	width: 100%;
+	max-width: 1200px;
+	box-sizing: border-box;
+	min-height: var(--popular-card-height);
+	height: var(--popular-card-height);
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.popular-left {
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 }
 
 .popular-right {
@@ -426,6 +492,11 @@ body.add-page #pickMap {
 	height: 100%;
 }
 
+.popular-right a {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
 
 .popular-thumb {
 	width: 100%;
@@ -443,9 +514,15 @@ body.add-page #pickMap {
 	}
 
 	.add-layout,
-	.detail-layout,
-	.popular-item {
+	.detail-layout {
 		grid-template-columns: 1fr;
+	}
+
+	.popular-item {
+		--popular-card-height: 260px;
+		grid-template-columns: minmax(0, 1fr) var(--popular-card-height);
+		min-height: var(--popular-card-height);
+		height: var(--popular-card-height);
 	}
 
 	.popular-right {
@@ -453,7 +530,7 @@ body.add-page #pickMap {
 	}
 
 	.popular-thumb {
-		max-height: 280px;
+		height: 100%;
 	}
 
 	.page-topbar {
@@ -539,22 +616,39 @@ body.add-page #pickMap {
 		overflow: auto;
 	}
 
-	.topbar h1 {
-		font-size: 1rem;
+	.add-layout,
+	.detail-layout {
+		grid-template-columns: 1fr;
 	}
 
-	.add-layout,
-	.detail-layout,
 	.popular-item {
 		grid-template-columns: 1fr;
+		min-height: 0;
+		height: auto;
+		padding-bottom: 0;
+		overflow: hidden;
 	}
 
 	.popular-right {
 		justify-content: flex-start;
+		width: calc(100% + 28px);
+		margin: 0 -14px -14px;
+	}
+
+	.popular-right a {
+		width: 100%;
+		height: auto;
 	}
 
 	.popular-thumb {
-		max-height: 220px;
+		height: auto;
+		aspect-ratio: 16 / 9;
+		display: block;
+		border-radius: 0 0 10px 10px;
+	}
+
+	.detail-left {
+		display: grid;
 	}
 
 	.page-topbar {
@@ -628,6 +722,10 @@ body.add-page #pickMap {
 	.vote-row .btn {
 		width: 100%;
 		box-sizing: border-box;
+	}
+
+	.random-floating-action .btn {
+		width: auto;
 	}
 
 	.vote-row form {
