@@ -402,7 +402,7 @@ body.add-page #pickMap {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
 	gap: 16px;
-	align-items: start;
+	align-items: stretch;
 }
 
 .detail-page > .card {
@@ -417,6 +417,7 @@ body.add-page #pickMap {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
+	height: 100%;
 }
 
 .detail-right {
@@ -440,6 +441,42 @@ body.add-page #pickMap {
 .detail-value {
 	font-size: 1.05rem;
 	line-height: 1.55;
+}
+
+.detail-page .detail-value {
+	font-size: 1.24rem;
+	line-height: 1.6;
+	font-weight: 700;
+}
+
+.detail-page .detail-row {
+	gap: 0;
+}
+
+.detail-page .detail-label,
+#results .detail-label,
+#list .detail-label {
+	margin-bottom: 0;
+}
+
+#results .detail-value {
+	font-size: 1.24rem;
+	line-height: 1.6;
+	font-weight: 700;
+}
+
+#results .detail-row {
+	gap: 0;
+}
+
+#list .detail-value {
+	font-size: 1.24rem;
+	line-height: 1.6;
+	font-weight: 700;
+}
+
+#list .detail-row {
+	gap: 0;
 }
 
 .vote-row {
