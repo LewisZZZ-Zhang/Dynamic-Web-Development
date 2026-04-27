@@ -1,13 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Sans+3:wght@400;600;700;800&display=swap');
+
 html,
 body {
 	height: 100%;
 	margin: 0;
-	font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+	font-family: 'Source Sans 3', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+	font-size: 16px;
+	line-height: 1.6;
 	color: #e6e8eb;
 	background: #0f1115;
 }
 
 :root {
+	--font-display: 'Bebas Neue', Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+	--font-body: 'Source Sans 3', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+	--text-base: 1rem;
+	--text-lg: 1.125rem;
+	--title-xl: clamp(2.25rem, 4vw, 3.4rem);
+	--title-lg: clamp(1.5rem, 2.2vw, 2.1rem);
+	--title-md: clamp(1.2rem, 1.4vw, 1.55rem);
+	--label-size: 0.78rem;
 	--topbar-height: 76px;
 	--page-topbar-offset: 76px;
 	--page-topbar-padding-x: 18px;
@@ -17,6 +29,12 @@ body {
 
 a {
 	color: #78a6ff;
+}
+
+p {
+	margin: 0;
+	font-size: var(--text-lg);
+	line-height: 1.7;
 }
 
 body.map-page main {
@@ -109,7 +127,12 @@ body.map-page .map-shell {
 
 .topbar h1 {
 	margin: 0;
-	font-size: 1.1rem;
+	font-family: var(--font-display);
+	font-size: var(--title-lg);
+	font-weight: 400;
+	letter-spacing: 0.04em;
+	line-height: 1;
+	text-transform: uppercase;
 }
 
 .topbar-logo {
@@ -125,9 +148,25 @@ body.map-page .map-shell {
 }
 
 .topbar--home .topbar-left h1 {
-	font-size: 1.05rem;
-	line-height: 1.25;
+	font-size: 2.5rem;
+	line-height: 1;
 	max-width: 100%;
+}
+
+.hero-title-main,
+.hero-title-sub {
+	display: inline;
+}
+
+.hero-title-main {
+	font-size: 1em;
+}
+
+.hero-title-sub {
+	font-size: 0.56em;
+	letter-spacing: 0.1em;
+	color: #aab3c3;
+	white-space: nowrap;
 }
 
 .topbar--home .topbar-right a {
@@ -148,7 +187,10 @@ body.map-page .map-shell {
 	text-decoration: none;
 	color: #e6e8eb;
 	cursor: pointer;
+	font-family: var(--font-body);
 	font-size: 1rem;
+	font-weight: 700;
+	letter-spacing: 0.02em;
 }
 
 .btn:hover {
@@ -207,6 +249,20 @@ body.add-page .page {
 	margin-top: 0;
 }
 
+h1,
+h2 {
+	margin: 0;
+	font-family: var(--font-display);
+	font-weight: 400;
+	letter-spacing: 0.045em;
+	line-height: 1;
+	text-transform: uppercase;
+}
+
+h2 {
+	font-size: var(--title-md);
+}
+
 .card {
 	background: #151922;
 	border: 1px solid #262b36;
@@ -224,7 +280,7 @@ body.add-page .page {
 }
 
 .about-page .card p {
-	margin: 0;
+	max-width: 65ch;
 }
 
 .search-form {
@@ -273,13 +329,18 @@ input::placeholder {
 
 label {
 	display: block;
-	font-weight: 600;
+	font-size: var(--label-size);
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: #c7cedb;
 	margin-bottom: 4px;
 }
 
 .muted {
 	color: #9aa3b2;
 	font-size: 0.95rem;
+	letter-spacing: 0.01em;
 }
 
 .leaflet-popup-content-wrapper,
@@ -369,14 +430,16 @@ body.add-page #pickMap {
 }
 
 .detail-label {
-	font-size: 0.9rem;
+	font-size: var(--label-size);
 	font-weight: 700;
+	letter-spacing: 0.08em;
 	color: #9aa3b2;
+	text-transform: uppercase;
 }
 
 .detail-value {
-	font-size: 1rem;
-	line-height: 1.4;
+	font-size: 1.05rem;
+	line-height: 1.55;
 }
 
 .vote-row {
@@ -627,6 +690,14 @@ body.add-page #pickMap {
 	.map-page .floating-top-right .btn {
 		min-width: 0;
 	}
+
+	.topbar--home .topbar-left h1 {
+		font-size: 2.15rem;
+	}
+
+	.topbar--home .topbar-left h1 {
+		font-size: 2.15rem;
+	}
 }
 
 /* Mobile: under 768px */
@@ -783,5 +854,23 @@ body.add-page #pickMap {
 
 	.random-hero-image {
 		height: 38vh;
+	}
+
+	.topbar--home .topbar-left h1 {
+		font-size: 1.35rem;
+	}
+
+	.hero-title-sub {
+		font-size: 0.62em;
+		letter-spacing: 0.05em;
+	}
+
+	.topbar--home .topbar-left h1 {
+		font-size: 2rem;
+	}
+
+	.hero-title-sub {
+		font-size: 0.62em;
+		letter-spacing: 0.05em;
 	}
 }
