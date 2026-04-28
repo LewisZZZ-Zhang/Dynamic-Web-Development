@@ -1,29 +1,60 @@
 window.onload = async () => {
 	const controlsDrawer = document.querySelector('.map-controls-drawer')
 	const controlsToggle = document.querySelector('.map-controls-toggle')
+	const controlsPanel = document.getElementById('mapControls')
 
-	function syncMapControls() {
-		if (!controlsDrawer || !controlsToggle) {
+	function shouldOpenMenuByDefault() {
+		return window.innerWidth >= 768
+	}
+
+	function syncMapControls(isOpen) {
+		if (!controlsDrawer || !controlsToggle || !controlsPanel) {
 			return
 		}
 
-		const isMobile = window.innerWidth < 768
-		const isOpen = !isMobile || controlsDrawer.classList.contains('is-open')
 		controlsToggle.setAttribute('aria-expanded', String(isOpen))
+		controlsPanel.hidden = !isOpen
+		controlsDrawer.classList.toggle('is-open', isOpen)
 	}
 
-	if (controlsDrawer && controlsToggle) {
+	if (controlsDrawer && controlsToggle && controlsPanel) {
+		let isMenuOpen = shouldOpenMenuByDefault()
+		let wasDefaultOpen = shouldOpenMenuByDefault()
+
 		controlsToggle.addEventListener('click', () => {
-			if (window.innerWidth >= 768) {
+			isMenuOpen = !isMenuOpen
+			syncMapControls(isMenuOpen)
+		})
+
+		document.addEventListener('click', (event) => {
+			if (!isMenuOpen || controlsDrawer.contains(event.target)) {
 				return
 			}
 
-			controlsDrawer.classList.toggle('is-open')
-			syncMapControls()
+			isMenuOpen = false
+			syncMapControls(isMenuOpen)
 		})
 
-		window.addEventListener('resize', syncMapControls)
-		syncMapControls()
+		document.addEventListener('keydown', (event) => {
+			if (event.key !== 'Escape' || !isMenuOpen) {
+				return
+			}
+
+			isMenuOpen = false
+			syncMapControls(isMenuOpen)
+		})
+
+		window.addEventListener('resize', () => {
+			const isDefaultOpen = shouldOpenMenuByDefault()
+			if (isDefaultOpen !== wasDefaultOpen) {
+				isMenuOpen = isDefaultOpen
+				wasDefaultOpen = isDefaultOpen
+			}
+
+			syncMapControls(isMenuOpen)
+		})
+
+		syncMapControls(isMenuOpen)
 	}
 
 	function getDefaultZoom() {

@@ -230,8 +230,23 @@ body.map-page .map-shell {
 	gap: 10px;
 }
 
+.map-page .map-controls-drawer .btn {
+	width: 100%;
+	box-sizing: border-box;
+}
+
 .map-controls-toggle {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.map-controls-drawer .floating-controls {
 	display: none;
+}
+
+.map-controls-drawer.is-open .floating-controls {
+	display: flex;
 }
 
 .map-floating-logo {
@@ -917,23 +932,13 @@ body.add-page #pickMap {
 	}
 
 	.map-controls-drawer {
+		flex-direction: column-reverse;
 		align-items: stretch;
 	}
 
 	.map-controls-toggle {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
 		width: 100%;
 		min-width: 0;
-	}
-
-	body.map-page .map-controls-drawer .floating-controls {
-		display: none;
-	}
-
-	body.map-page .map-controls-drawer.is-open .floating-controls {
-		display: flex;
 	}
 
 	.floating-controls .btn,
