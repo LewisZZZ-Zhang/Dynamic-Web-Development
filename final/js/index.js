@@ -2,19 +2,49 @@ window.onload = async () => {
 	const controlsDrawer = document.querySelector('.map-controls-drawer')
 	const controlsToggle = document.querySelector('.map-controls-toggle')
 	const controlsPanel = document.getElementById('mapControls')
+	const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+	const hasJQuery = typeof window.jQuery === 'function'
 
 	function shouldOpenMenuByDefault() {
 		return window.innerWidth >= 768
 	}
 
-	function syncMapControls(isOpen) {
+	function syncMapControls(isOpen, options = {}) {
 		if (!controlsDrawer || !controlsToggle || !controlsPanel) {
 			return
 		}
 
+		const animate = options.animate === true && hasJQuery && !prefersReducedMotion
+		const $controlsPanel = hasJQuery ? window.jQuery(controlsPanel) : null
+
 		controlsToggle.setAttribute('aria-expanded', String(isOpen))
-		controlsPanel.hidden = !isOpen
-		controlsDrawer.classList.toggle('is-open', isOpen)
+
+		if (!animate) {
+			controlsPanel.hidden = !isOpen
+			controlsPanel.style.display = isOpen ? 'flex' : 'none'
+			controlsDrawer.classList.toggle('is-open', isOpen)
+			return
+		}
+
+		if (isOpen) {
+			controlsPanel.hidden = false
+			controlsDrawer.classList.add('is-open')
+			$controlsPanel
+				.stop(true, true)
+				.hide()
+				.css('display', 'flex')
+				.hide()
+				.slideDown(180, () => {
+					$controlsPanel.css('display', 'flex')
+				})
+			return
+		}
+
+		$controlsPanel.stop(true, true).slideUp(180, () => {
+			controlsPanel.hidden = true
+			controlsPanel.style.display = 'none'
+			controlsDrawer.classList.remove('is-open')
+		})
 	}
 
 	if (controlsDrawer && controlsToggle && controlsPanel) {
@@ -23,7 +53,7 @@ window.onload = async () => {
 
 		controlsToggle.addEventListener('click', () => {
 			isMenuOpen = !isMenuOpen
-			syncMapControls(isMenuOpen)
+			syncMapControls(isMenuOpen, { animate: true })
 		})
 
 		document.addEventListener('click', (event) => {
@@ -32,7 +62,7 @@ window.onload = async () => {
 			}
 
 			isMenuOpen = false
-			syncMapControls(isMenuOpen)
+			syncMapControls(isMenuOpen, { animate: true })
 		})
 
 		document.addEventListener('keydown', (event) => {
@@ -41,7 +71,7 @@ window.onload = async () => {
 			}
 
 			isMenuOpen = false
-			syncMapControls(isMenuOpen)
+			syncMapControls(isMenuOpen, { animate: true })
 		})
 
 		window.addEventListener('resize', () => {
