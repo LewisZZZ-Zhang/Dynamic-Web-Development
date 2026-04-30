@@ -1,7 +1,6 @@
 window.onload = async () => {
 	const res = await fetch('/popular-data')
 	const rows = await res.json()
-	console.log('popular rows:', rows)
 	const listEl = document.getElementById('list')
 
 	function addField(parent, label, value) {
@@ -32,7 +31,6 @@ window.onload = async () => {
 
 	for (let i = 0; i < rows.length; i++) {
 		const p = rows[i]
-		console.log('popular item image:', p._id, p.image)
 
 		const article = document.createElement('article')
 		article.className = 'card popular-item'
