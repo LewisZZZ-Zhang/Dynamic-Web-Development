@@ -72,3 +72,6 @@ Add a new location
 卡片最宽1500
 
 Responsive design that adapts to different screen sizes and devices
+
+
+zip -r final-submission.zip server.js package.json package-lock.json README.md index.html about.html add-location.html detail.html popular.html random.html search.html js style data uploads -x "node_modules/*" ".DS_Store" ".git/*"
