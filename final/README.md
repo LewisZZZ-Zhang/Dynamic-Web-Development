@@ -22,9 +22,3 @@ npm start
 ```text
 http://localhost:3004/
 ```
-
-## Development Mode
-
-```bash
-npm run dev
-```
